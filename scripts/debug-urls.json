@@ -1,0 +1,13 @@
+[
+ {"url":"https://careers.hcltech.com/search/?createNewAlert=false&q=&locationsearch=Noida&sortColumn=referencedate&sortDirection=desc","find":"jobTitle","n":2500},
+ {"url":"https://careers.hcltech.com/search/?q=&locationsearch=Noida","find":"jobTitle","n":2500},
+ {"url":"https://app.eightfold.ai/api/apply/v2/jobs?domain=eightfold.ai&start=0&num=3","accept":"application/json"},
+ {"url":"https://eightfold.ai/company/careers/","find":"eightfold.ai/careers","n":800},
+ {"url":"https://woodenstreet.zohorecruit.in/jobs/Careers","find":"id=\"jobs\"","n":1800},
+ {"url":"https://www.pinelabs.com/careers/open-jobs","find":"job","n":1500},
+ {"url":"https://www.postman.com/company/careers/open-positions/","find":"greenhouse","n":1200},
+ {"url":"https://sprinklr.wd1.myworkdayjobs.com/wday/cxs/sprinklr/careers/jobs","method":"POST","body":{"appliedFacets":{},"limit":5,"offset":0,"searchText":""},"accept":"application/json"},
+ {"url":"https://innovaccer.com/careers/jobs","find":"apply.workable.com/j/","n":1800},
+ {"url":"https://clevertap.darwinbox.in/ms/candidatev2/main/careers/allJobs","n":800},
+ {"url":"https://wingify.keka.com/careers/","n":1200}
+]
