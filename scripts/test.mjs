@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
+import { SCRAPERS, workdayPostedOn, parseWorkdayList, parseSuccessFactorsRows, parseZohoJobs, parseEightfold } from './scrapers.mjs';
 import { ADAPTERS, buildDataset, detectCities, detectArea, isFresherRole, toCityJobs } from './lib.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -62,7 +63,7 @@ await t('adapters normalise every provider', () => {
 });
 
 await t('every board in boards.json uses a known provider', () => {
-  for (const b of boards) assert.ok(ADAPTERS[b.ats], `${b.name}: unknown ats ${b.ats}`);
+  for (const b of boards) assert.ok(ADAPTERS[b.ats] || SCRAPERS[b.ats], `${b.name}: unknown ats ${b.ats}`);
 });
 
 await t('pipeline: 7-day rule, closed roles drop out, outages keep old data', async () => {
@@ -116,6 +117,39 @@ await t('pipeline: 7-day rule, closed roles drop out, outages keep old data', as
   feeds['greenhouse/innovaccer'] = { jobs: [] };
   const r5 = await buildDataset({ boards: bs, places, fetchBoard, prev: r4.dataset, now: at(9 * 24) });
   assert.ok(!('greenhouse:innovaccer:7:jaipur' in r5.dataset.seen));
+});
+
+await t('scrapers read Workday, SuccessFactors, Zoho and Eightfold payloads', () => {
+  const now = new Date('2026-10-24T06:00:00Z').getTime();
+  assert.equal(workdayPostedOn('Posted Today', now), new Date(now).toISOString());
+  assert.equal(workdayPostedOn('Posted Yesterday', now), new Date(now - 864e5).toISOString());
+  assert.equal(workdayPostedOn('Posted 5 Days Ago', now), new Date(now - 5 * 864e5).toISOString());
+  assert.equal(workdayPostedOn('Posted 30+ Days Ago', now), new Date(now - 30 * 864e5).toISOString());
+  assert.equal(workdayPostedOn('', now), null);
+
+  const wd = parseWorkdayList({ total: 1, jobPostings: [{ title: 'SDE II', externalPath: '/job/Noida/SDE-II_R1', locationsText: 'Noida, India', postedOn: 'Posted 2 Days Ago', bulletFields: ['R1'] }] }, { host: 'x.wd1.myworkdayjobs.com', site: 'careers' }, now);
+  assert.equal(wd[0].url, 'https://x.wd1.myworkdayjobs.com/careers/job/Noida/SDE-II_R1');
+  assert.equal(wd[0].rawId, 'R1');
+  assert.deepEqual(detectCities(wd[0].locations), ['noida']);
+
+  const sf = parseSuccessFactorsRows(`<table><tr class="data-row"><td class="colTitle"><span class="jobTitle hidden-phone"><a href="/job/Noida-Lead-Engineer/998877/" class="jobTitle-link">Lead Engineer &amp; Architect</a></span></td><td class="colLocation"><span class="jobLocation"> Noida, UP, IN </span></td><td class="colDate"><span class="jobDate">Oct 22, 2026</span></td></tr><tr class="data-row"><td><a class="jobTitle-link" href="/job/Jaipur-Analyst/11/">Analyst</a><span class="jobLocation">Jaipur, RJ, IN</span></td></tr></table>`, 'https://careers.example.com');
+  assert.equal(sf.length, 2);
+  assert.equal(sf[0].title, 'Lead Engineer & Architect');
+  assert.equal(sf[0].url, 'https://careers.example.com/job/Noida-Lead-Engineer/998877/');
+  assert.equal(sf[0].rawId, '998877');
+  assert.ok(sf[0].postedAt.startsWith('2026-10-2'));
+  assert.deepEqual(detectCities(sf[1].locations), ['jaipur']);
+
+  const zoho = parseZohoJobs(`<input type="hidden" id="jobs" value='[{&quot;id&quot;:&quot;4001&quot;,&quot;Posting_Title&quot;:&quot;Graphic Designer&quot;,&quot;City&quot;:&quot;Jaipur&quot;,&quot;State&quot;:&quot;Rajasthan&quot;,&quot;Date_Opened&quot;:&quot;2026-10-21&quot;}]'>`, 'https://w.zohorecruit.in');
+  assert.equal(zoho[0].title, 'Graphic Designer');
+  assert.equal(zoho[0].url, 'https://w.zohorecruit.in/jobs/Careers/4001/graphic-designer?source=CareerSite');
+  assert.deepEqual(detectCities(zoho[0].locations), ['jaipur']);
+  assert.throws(() => parseZohoJobs('<html></html>', 'https://w.zohorecruit.in'), /not found/);
+
+  const ef = parseEightfold({ positions: [{ id: 5, name: 'ML Engineer', location: 'Noida, India', t_create: 1792800000, canonicalPositionUrl: 'https://app.eightfold.ai/careers/job/5' }] }, 'app.eightfold.ai');
+  assert.equal(ef[0].title, 'ML Engineer');
+  assert.ok(ef[0].postedAt);
+  assert.deepEqual(detectCities(ef[0].locations), ['noida']);
 });
 
 console.log(`\nAll ${n} checks passed.`);

@@ -10,16 +10,6 @@
     "slug": "innovaccer"
   },
   {
-    "name": "Sprinklr",
-    "ats": "greenhouse",
-    "slug": "sprinklr"
-  },
-  {
-    "name": "BrowserStack",
-    "ats": "greenhouse",
-    "slug": "browserstack"
-  },
-  {
     "name": "Chargebee",
     "ats": "greenhouse",
     "slug": "chargebee"
@@ -203,5 +193,64 @@
     "name": "Ixigo",
     "ats": "smartrecruiters",
     "slug": "ixigo"
+  },
+  {
+    "name": "Sprinklr",
+    "ats": "workday",
+    "slug": "sprinklr",
+    "host": "sprinklr.wd1.myworkdayjobs.com",
+    "tenant": "sprinklr",
+    "site": "careers"
+  },
+  {
+    "name": "Adobe",
+    "ats": "workday",
+    "slug": "adobe",
+    "host": "adobe.wd5.myworkdayjobs.com",
+    "tenant": "adobe",
+    "site": "external_experienced"
+  },
+  {
+    "name": "BrowserStack",
+    "ats": "workday",
+    "slug": "browserstack",
+    "host": "browserstack.wd3.myworkdayjobs.com",
+    "tenant": "browserstack",
+    "site": "External"
+  },
+  {
+    "name": "Fractal",
+    "ats": "workday",
+    "slug": "fractal",
+    "host": "fractal.wd1.myworkdayjobs.com",
+    "tenant": "fractal",
+    "site": "Careers"
+  },
+  {
+    "name": "Samsung R&D",
+    "ats": "workday",
+    "slug": "samsung",
+    "host": "sec.wd3.myworkdayjobs.com",
+    "tenant": "sec",
+    "site": "Samsung_Careers"
+  },
+  {
+    "name": "HCLTech",
+    "ats": "successfactors",
+    "slug": "hcltech",
+    "base": "https://careers.hcltech.com"
+  },
+  {
+    "name": "WoodenStreet",
+    "ats": "zoho",
+    "slug": "woodenstreet",
+    "url": "https://woodenstreet.zohorecruit.in/jobs/Careers"
+  },
+  {
+    "name": "Eightfold",
+    "ats": "eightfold",
+    "slug": "eightfold",
+    "host": "app.eightfold.ai",
+    "domain": "eightfold.ai"
   }
 ]

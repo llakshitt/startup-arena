@@ -9,6 +9,7 @@ import { readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { ADAPTERS, buildDataset } from './lib.mjs';
+import { SCRAPERS } from './scrapers.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const readJson = async (rel, fallback) => {
@@ -19,18 +20,27 @@ const readJson = async (rel, fallback) => {
   }
 };
 
-async function getJson(url) {
+const UA = 'Mozilla/5.0 (compatible; startup-arena-refresh/1.0; reads public job boards)';
+
+/** One request with a timeout and a retry. as: "json" or "text". Never throws: returns {status, data|error}. */
+async function request(url, { as = 'json', method = 'GET', body } = {}) {
   for (let attempt = 0; attempt < 2; attempt++) {
     const ctrl = new AbortController();
-    const timer = setTimeout(() => ctrl.abort(), 20000);
+    const timer = setTimeout(() => ctrl.abort(), 25000);
     try {
       const res = await fetch(url, {
+        method,
         signal: ctrl.signal,
-        headers: { accept: 'application/json', 'user-agent': 'startup-arena-refresh/1.0 (daily job-board read)' },
+        headers: {
+          accept: as === 'json' ? 'application/json' : 'text/html,application/xhtml+xml',
+          'user-agent': UA,
+          ...(body ? { 'content-type': 'application/json' } : {}),
+        },
+        body: body ? JSON.stringify(body) : undefined,
       });
       if (res.status === 404) return { status: 'notfound' };
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      return { status: 'ok', data: await res.json() };
+      return { status: 'ok', data: as === 'json' ? await res.json() : await res.text() };
     } catch (e) {
       if (attempt === 1) return { status: 'error', error: String(e.message || e) };
       await new Promise((r) => setTimeout(r, 1500));
@@ -39,8 +49,17 @@ async function getJson(url) {
     }
   }
 }
+const getJson = (url) => request(url, { as: 'json' });
+const http = { json: (url, o) => request(url, { ...o, as: 'json' }), text: (url, o) => request(url, { ...o, as: 'text' }) };
 
 async function fetchBoard(board) {
+  if (SCRAPERS[board.ats]) {
+    try {
+      return { status: 'ok', rawJobs: await SCRAPERS[board.ats].fetch(board, http) };
+    } catch (e) {
+      return { status: 'error', error: String(e.message || e) };
+    }
+  }
   const adapter = ADAPTERS[board.ats];
   if (!adapter) return { status: 'error', error: `unknown ats "${board.ats}"` };
 
