@@ -1,8 +1,16 @@
 {
-  "generatedAt": "2026-10-24T07:36:58.032Z",
-  "boardsTried": 32,
-  "boardsOk": 9,
+  "generatedAt": "2026-10-24T07:57:14.210Z",
+  "boardsTried": 41,
+  "boardsOk": 23,
   "report": [
+    {
+      "company": "Atlan",
+      "ats": "ashby",
+      "slug": "atlan",
+      "status": "ok",
+      "totalOpenRoles": 6,
+      "matched": 0
+    },
     {
       "company": "BrowserStack",
       "ats": "greenhouse",
@@ -12,10 +20,11 @@
     },
     {
       "company": "Cars24",
-      "ats": "lever",
+      "ats": "smartrecruiters",
       "slug": "cars24",
-      "status": "notfound",
-      "error": null
+      "status": "ok",
+      "totalOpenRoles": 1,
+      "matched": 0
     },
     {
       "company": "Celebal Technologies",
@@ -40,6 +49,14 @@
       "error": null
     },
     {
+      "company": "Cred",
+      "ats": "lever",
+      "slug": "cred",
+      "status": "ok",
+      "totalOpenRoles": 8,
+      "matched": 0
+    },
+    {
       "company": "Eightfold",
       "ats": "greenhouse",
       "slug": "eightfold",
@@ -48,10 +65,11 @@
     },
     {
       "company": "Freshworks",
-      "ats": "greenhouse",
+      "ats": "smartrecruiters",
       "slug": "freshworks",
-      "status": "notfound",
-      "error": null
+      "status": "ok",
+      "totalOpenRoles": 126,
+      "matched": 0
     },
     {
       "company": "Games24x7",
@@ -66,6 +84,14 @@
       "slug": "gameskraft",
       "status": "notfound",
       "error": null
+    },
+    {
+      "company": "Groww",
+      "ats": "greenhouse",
+      "slug": "groww",
+      "status": "ok",
+      "totalOpenRoles": 10,
+      "matched": 0
     },
     {
       "company": "Gupshup",
@@ -89,6 +115,14 @@
       "error": null
     },
     {
+      "company": "Hevo Data",
+      "ats": "lever",
+      "slug": "hevodata",
+      "status": "ok",
+      "totalOpenRoles": 53,
+      "matched": 0
+    },
+    {
       "company": "Infoedge",
       "ats": "smartrecruiters",
       "slug": "InfoEdge",
@@ -102,6 +136,14 @@
       "slug": "innovaccer",
       "status": "notfound",
       "error": null
+    },
+    {
+      "company": "Ixigo",
+      "ats": "smartrecruiters",
+      "slug": "ixigo",
+      "status": "ok",
+      "totalOpenRoles": 7,
+      "matched": 0
     },
     {
       "company": "Jar",
@@ -149,6 +191,22 @@
       "matched": 0
     },
     {
+      "company": "Navi",
+      "ats": "ashby",
+      "slug": "navi",
+      "status": "ok",
+      "totalOpenRoles": 4,
+      "matched": 0
+    },
+    {
+      "company": "Observe.AI",
+      "ats": "greenhouse",
+      "slug": "observeai",
+      "status": "ok",
+      "totalOpenRoles": 9,
+      "matched": 0
+    },
+    {
       "company": "Paytm",
       "ats": "lever",
       "slug": "paytm",
@@ -187,6 +245,14 @@
       "matched": 0
     },
     {
+      "company": "Slice",
+      "ats": "greenhouse",
+      "slug": "slice",
+      "status": "ok",
+      "totalOpenRoles": 22,
+      "matched": 0
+    },
+    {
       "company": "Spinny",
       "ats": "lever",
       "slug": "spinny",
@@ -201,11 +267,20 @@
       "error": null
     },
     {
+      "company": "Swiggy",
+      "ats": "smartrecruiters",
+      "slug": "swiggy",
+      "status": "ok",
+      "totalOpenRoles": 202,
+      "matched": 6
+    },
+    {
       "company": "Unacademy",
-      "ats": "lever",
+      "ats": "smartrecruiters",
       "slug": "unacademy",
-      "status": "notfound",
-      "error": null
+      "status": "ok",
+      "totalOpenRoles": 3,
+      "matched": 0
     },
     {
       "company": "Upgrad",
@@ -216,17 +291,19 @@
     },
     {
       "company": "Whatfix",
-      "ats": "greenhouse",
+      "ats": "smartrecruiters",
       "slug": "whatfix",
-      "status": "notfound",
-      "error": null
+      "status": "ok",
+      "totalOpenRoles": 1,
+      "matched": 0
     },
     {
       "company": "Zeta",
-      "ats": "greenhouse",
+      "ats": "lever",
       "slug": "zeta",
-      "status": "notfound",
-      "error": null
+      "status": "ok",
+      "totalOpenRoles": 27,
+      "matched": 0
     },
     {
       "company": "Zscaler",
