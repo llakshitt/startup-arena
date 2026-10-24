@@ -1,6 +1,101 @@
 [
- {"url":"https://careers.hcltech.com/search/?createNewAlert=false&q=&locationsearch=Noida&sortColumn=referencedate&sortDirection=desc","find":"/job/","n":1800},
- {"url":"https://careers.hcltech.com/search/?createNewAlert=false&q=&locationsearch=Noida&sortColumn=referencedate&sortDirection=desc","find":"Noida,","n":1500},
- {"url":"https://careers.hcltech.com/search/?createNewAlert=false&q=&locationsearch=Noida&sortColumn=referencedate&sortDirection=desc","find":"searchResults","n":1500},
- {"url":"https://careers.hcltech.com/services/recruiting/v1/jobs","method":"POST","body":{"locale":"en_US","pageNumber":0,"sortBy":"","keywords":"","location":"Noida","facetFilters":{},"brand":"","skills":[],"categoryId":0,"alertId":"","rcmCandidateId":""},"accept":"application/json","n":1500}
+ {
+  "url": "https://careers.hcltech.com/services/recruiting/v1/jobs",
+  "method": "POST",
+  "body": {
+   "locale": "en_US",
+   "pageNumber": 0,
+   "sortBy": "",
+   "keywords": "",
+   "location": "",
+   "facetFilters": {},
+   "brand": "",
+   "skills": [],
+   "categoryId": 0,
+   "alertId": "",
+   "rcmCandidateId": ""
+  },
+  "accept": "application/json",
+  "n": 2500
+ },
+ {
+  "url": "https://careers.hcltech.com/services/recruiting/v1/jobs",
+  "method": "POST",
+  "body": {
+   "locale": "en_US",
+   "pageNumber": 0,
+   "sortBy": "",
+   "keywords": "Noida",
+   "location": "",
+   "facetFilters": {},
+   "brand": "",
+   "skills": [],
+   "categoryId": 0,
+   "alertId": "",
+   "rcmCandidateId": ""
+  },
+  "accept": "application/json",
+  "n": 2500
+ },
+ {
+  "url": "https://careers.hcltech.com/services/recruiting/v1/jobs",
+  "method": "POST",
+  "body": {
+   "locale": "en_US",
+   "pageNumber": 0,
+   "sortBy": "",
+   "keywords": "",
+   "location": "Noida, India",
+   "facetFilters": {},
+   "brand": "",
+   "skills": [],
+   "categoryId": 0,
+   "alertId": "",
+   "rcmCandidateId": ""
+  },
+  "accept": "application/json",
+  "n": 2500
+ },
+ {
+  "url": "https://careers.hcltech.com/services/recruiting/v1/jobs",
+  "method": "POST",
+  "body": {
+   "locale": "en_US",
+   "pageNumber": 0,
+   "sortBy": "",
+   "keywords": "",
+   "location": "",
+   "facetFilters": {
+    "jobLocationShort": [
+     "Noida"
+    ]
+   },
+   "brand": "",
+   "skills": [],
+   "categoryId": 0,
+   "alertId": "",
+   "rcmCandidateId": ""
+  },
+  "accept": "application/json",
+  "n": 2500
+ },
+ {
+  "url": "https://careers.hcltech.com/services/recruiting/v1/jobs",
+  "method": "POST",
+  "body": {
+   "locale": "en_US",
+   "pageNumber": 0,
+   "sortBy": "recent",
+   "keywords": "Noida",
+   "location": "",
+   "facetFilters": {},
+   "brand": "",
+   "skills": [],
+   "categoryId": 0,
+   "alertId": "",
+   "rcmCandidateId": ""
+  },
+  "accept": "application/json",
+  "n": 2500
+ }
 ]
