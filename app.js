@@ -67,7 +67,16 @@ function setupMap() {
     maxZoom: 19,
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   }).addTo(state.map);
-  state.layer = L.layerGroup().addTo(state.map);
+  // Nearby pins merge into one marker that shows the total roles; zooming in splits them again.
+  state.layer = (L.markerClusterGroup
+    ? L.markerClusterGroup({
+        showCoverageOnHover: false, maxClusterRadius: 48, spiderfyOnMaxZoom: true,
+        iconCreateFunction: (cl) => {
+          const roles = cl.getAllChildMarkers().reduce((n, m) => n + (m.options.roles || 0), 0);
+          return L.divIcon({ className: '', html: `<div class="pin cluster">${roles || cl.getChildCount()}</div>`, iconSize: [40, 40] });
+        },
+      })
+    : L.layerGroup()).addTo(state.map);
   state.map.on('click', () => { if (state.selected) { state.selected = null; render(); } });
 }
 
@@ -347,7 +356,7 @@ function drawMarkers(shown, watchShown) {
       html: `<div class="pin${state.selected === key(p) ? ' sel' : ''}">${p.jobs.length}</div>`,
       iconSize: [size, size],
     });
-    L.marker([p.lat, p.lng], { icon, title: `${p.company}: ${p.jobs.length} open roles`, riseOnHover: true })
+    L.marker([p.lat, p.lng], { icon, roles: p.jobs.length, title: `${p.company}: ${p.jobs.length} open roles`, riseOnHover: true })
       .on('click', () => select(p))
       .addTo(state.layer);
   }

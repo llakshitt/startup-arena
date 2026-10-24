@@ -29,8 +29,6 @@ const BOOKMARK = 'M6 3.5h12v17l-6-4.2-6 4.2z';
 const CLOSE = 'M6 6l12 12M18 6 6 18';
 
 const PAGE = 24;
-const TINTS = ['#e8e2ff', '#dcf2e6', '#ffe6d3', '#d9eaff', '#fde0e9', '#f2edc6'];
-const tint = (name) => TINTS[[...name].reduce((n, c) => n + c.charCodeAt(0), 0) % TINTS.length];
 const cap = (s) => (s ? s[0].toUpperCase() + s.slice(1) : s);
 const plural = (n, one, many) => `${n} ${n === 1 ? one : many}`;
 const fmtDate = (iso) => new Date(iso).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
@@ -201,9 +199,24 @@ function renderChips() {
 
 function emptyJobs() {
   const filtered = jobFilterCount(state) || state.q;
+  const reset = { city: '', area: '', dept: '', type: '', work: '', company: '', fresh: false, days: MAX_AGE_DAYS };
+  const names = { city: () => cityLabel(state.city), area: () => state.area, dept: () => state.dept, type: () => cap(state.type), work: () => cap(state.work), company: () => state.company, fresh: () => 'Open to freshers', days: () => `Last ${state.days} days` };
+  // Which single filter, if removed, brings roles back? Offer those first.
+  const tips = Object.keys(names)
+    .filter((k) => (k === 'days' ? state.days < MAX_AGE_DAYS : state[k]))
+    .map((k) => ({ k, n: filterJobs(state.jobs, { ...state, [k]: reset[k] }).length }))
+    .filter((t) => t.n > 0)
+    .sort((a, b) => b.n - a.n);
+  if (state.q.trim()) {
+    const n = filterJobs(state.jobs, { ...state, q: '' }).length;
+    if (n) tips.unshift({ k: 'q', n });
+  }
   return el('div', { class: 'empty' },
     el('h2', { text: filtered ? 'No roles match these filters' : 'No fresh roles right now' }),
-    el('p', { text: filtered ? `Only roles posted in the last ${MAX_AGE_DAYS} days are shown. Try removing a filter or searching for something broader.` : 'New roles appear here after each 5-hourly refresh.' }),
+    el('p', { text: filtered ? (tips.length ? 'Try removing one of these to see roles again.' : `Only roles posted in the last ${MAX_AGE_DAYS} days are shown. Try clearing everything.`) : 'New roles appear here after each 5-hourly refresh.' }),
+    tips.length ? el('div', { class: 'tips' }, tips.slice(0, 4).map((t) =>
+      el('button', { class: 'chip', type: 'button', onclick: () => { state[t.k] = t.k === 'q' ? '' : reset[t.k]; state.shown = PAGE; commit(); } },
+        t.k === 'q' ? `Clear search "${state.q.trim()}"` : `Remove ${names[t.k]()}`, el('span', { class: 'sr', text: `shows ${t.n} roles` }), el('span', { text: `(${t.n})` })))) : null,
     filtered ? el('button', { class: 'btn-dark', type: 'button', onclick: () => { state.q = ''; $('freset').click(); } }, 'Clear search and filters') : null);
 }
 
@@ -219,7 +232,7 @@ function bookmarkButton(j) {
   return btn;
 }
 
-const logo = (company) => el('span', { class: 'logo', 'aria-hidden': 'true', style: `--tint:${tint(company)}`, text: company.trim()[0]?.toUpperCase() || '?' });
+const logo = (company) => el('span', { class: 'logo', 'aria-hidden': 'true', text: company.trim()[0]?.toUpperCase() || '?' });
 const tagsFor = (j) => [j.type, j.workplace, j.department].filter(Boolean).map(cap);
 
 function jobCard(j) {
