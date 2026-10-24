@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {
   filterPins, sortPins, mergePins, withinWindow, areasFor, deptsFor, postedLabel, ageInDays, parseHash, buildHash, activeFilterCount,
   cityStats, topHiring, savedToCsv,
+  flattenJobs, filterJobs, sortJobs, facet, companiesFrom, parseAppHash, buildAppHash, jobFilterCount,
 } from '../filter.js';
 
 const now = new Date('2026-10-24T00:00:00Z').getTime();
@@ -112,5 +113,28 @@ t('csv export escapes quotes and blocks spreadsheet formulas', () => {
   assert.equal(lines[1], '"Co, Inc",noida,"Says ""hi""",Applied,https://x.test/1,2026-10-24');
   assert.ok(lines[2].startsWith(`"'=HYPERLINK(""http://evil"")"`));
   assert.ok(lines[2].includes(",'+cmd,"));
+});
+t('flat job list: filters, sort, facets, companies', () => {
+  const jobs = flattenJobs(withinWindow(pins, now).length ? withinWindow(pins, now) : pins);
+  assert.ok(jobs.every((j) => j.company && j.city));
+  assert.deepEqual(filterJobs(jobs, { city: 'noida' }, now).map((j) => j.id), ['5']);
+  assert.deepEqual(filterJobs(jobs, { q: 'alpha' }, now).map((j) => j.id).sort(), ['1', '3', '7']);
+  assert.deepEqual(filterJobs(jobs, { fresh: true }, now).map((j) => j.id), ['5']);
+  assert.deepEqual(filterJobs(jobs, { days: 2 }, now).map((j) => j.id).sort(), ['3', '5', '7']);
+  assert.equal(filterJobs(jobs, { company: 'Beta', area: 'Sector 62' }, now).length, 1);
+  assert.deepEqual(sortJobs(jobs, 'new').slice(0, 2).map((j) => j.id), ['5', '7']);
+  assert.deepEqual(facet(jobs, 'department')[0], ['Eng', 2]);
+  const cos = companiesFrom(jobs);
+  assert.equal(cos[0].company, 'Alpha');
+  assert.equal(cos[0].jobs.length, 3);
+});
+t('app hash round-trips and clamps bad input', () => {
+  const s = { view: 'jobs', q: 'react', city: 'noida', area: '', dept: 'Eng', type: '', work: 'remote', company: '', fresh: true, days: 3, sort: 'company' };
+  assert.deepEqual(parseAppHash(buildAppHash(s)), s);
+  assert.equal(parseAppHash('#/nonsense').view, 'jobs');
+  assert.equal(parseAppHash('#/jobs?days=99&city=pune').days, 7);
+  assert.equal(parseAppHash('#/jobs?city=pune').city, '');
+  assert.equal(buildAppHash({ view: 'companies', city: '', days: 7, sort: 'new' }), '#/companies');
+  assert.equal(jobFilterCount(s), 5);
 });
 console.log(`\nAll ${n} UI checks passed.`);

@@ -2,6 +2,8 @@
 
 Open roles at companies in Jaipur and Noida, pinned on a map. Each role links to the company's own job board.
 
+Screens: Find jobs (search, filters, job cards), Companies, Map, Saved and About. `index.html` + `jobs.js` run the first, second, fourth and fifth; `map.html` + `app.js` run the map. Shared logic is in `filter.js`, shared styles in `style.css`.
+
 No dependencies and no build step. The site is plain HTML, CSS and JavaScript. The map library (Leaflet) loads from a CDN in the browser.
 
 ## How the roles stay live

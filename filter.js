@@ -157,6 +157,95 @@ export function topHiring(pins, limit = 8) {
   return [...by.values()].sort((a, b) => b.roles - a.roles || a.company.localeCompare(b.company)).slice(0, limit);
 }
 
+/* ---------- the Find jobs / Companies / Saved screens ---------- */
+
+export const VIEWS = ['jobs', 'companies', 'saved', 'about'];
+
+/** Every role as one flat list, each carrying its company, city and area. Expects merged pins. */
+export function flattenJobs(pins) {
+  return pins.flatMap((p) => p.jobs.map((j) => ({ ...j, company: p.company, city: p.city, area: j.area ?? p.area ?? null, lat: p.lat, lng: p.lng })));
+}
+
+export function filterJobs(jobs, f = {}, now = Date.now()) {
+  const { q = '', city = '', area = '', dept = '', type = '', work = '', company = '', fresh = false, days = MAX_AGE_DAYS } = f;
+  const needle = q.trim().toLowerCase();
+  return jobs.filter((j) => {
+    if (city && j.city !== city) return false;
+    if (company && j.company !== company) return false;
+    if (area && j.area !== area) return false;
+    if (dept && j.department !== dept) return false;
+    if (type && j.type !== type) return false;
+    if (work && j.workplace !== work) return false;
+    if (fresh && !j.fresher) return false;
+    if (days < MAX_AGE_DAYS) {
+      const age = ageInDays(j.postedAt || j.firstSeen, now);
+      if (age !== null && age > days) return false;
+    }
+    if (needle && !`${j.title} ${j.company} ${j.department || ''}`.toLowerCase().includes(needle)) return false;
+    return true;
+  });
+}
+
+export function sortJobs(jobs, sort = 'new') {
+  const when = (j) => j.postedAt || j.firstSeen || '';
+  const copy = [...jobs];
+  if (sort === 'company') copy.sort((a, b) => a.company.localeCompare(b.company) || when(b).localeCompare(when(a)));
+  else copy.sort((a, b) => when(b).localeCompare(when(a)) || a.company.localeCompare(b.company));
+  return copy;
+}
+
+/** Distinct values of one job field with counts, most common first. */
+export function facet(jobs, key) {
+  const m = new Map();
+  for (const j of jobs) if (j[key]) m.set(j[key], (m.get(j[key]) || 0) + 1);
+  return [...m].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+}
+
+/** One entry per company per city, with its roles, newest first. */
+export function companiesFrom(jobs) {
+  const by = new Map();
+  for (const j of jobs) {
+    const k = `${j.company}|${j.city}`;
+    if (!by.has(k)) by.set(k, { company: j.company, city: j.city, jobs: [] });
+    by.get(k).jobs.push(j);
+  }
+  return [...by.values()].map((c) => {
+    c.jobs.sort((a, b) => (b.postedAt || b.firstSeen || '').localeCompare(a.postedAt || a.firstSeen || ''));
+    const areas = facet(c.jobs, 'area');
+    return { ...c, area: areas[0]?.[0] || null };
+  }).sort((a, b) => b.jobs.length - a.jobs.length || a.company.localeCompare(b.company));
+}
+
+export function parseAppHash(hash) {
+  const m = /^#\/([a-z]+)(?:\?(.*))?$/.exec(hash || '');
+  const view = m && VIEWS.includes(m[1]) ? m[1] : 'jobs';
+  const p = new URLSearchParams(m?.[2] || '');
+  const days = Number(p.get('days'));
+  return {
+    view,
+    q: p.get('q') || '',
+    city: ['jaipur', 'noida'].includes(p.get('city')) ? p.get('city') : '',
+    area: p.get('area') || '', dept: p.get('dept') || '', type: p.get('type') || '', work: p.get('work') || '', company: p.get('company') || '',
+    fresh: p.get('fresh') === '1',
+    days: days >= 1 && days <= MAX_AGE_DAYS ? Math.floor(days) : MAX_AGE_DAYS,
+    sort: p.get('sort') === 'company' ? 'company' : 'new',
+  };
+}
+
+export function buildAppHash(s) {
+  const p = new URLSearchParams();
+  for (const k of ['q', 'city', 'area', 'dept', 'type', 'work', 'company']) if (s[k]) p.set(k, s[k]);
+  if (s.fresh) p.set('fresh', '1');
+  if (s.days && s.days < MAX_AGE_DAYS) p.set('days', String(s.days));
+  if (s.sort === 'company') p.set('sort', 'company');
+  const qs = p.toString();
+  return `#/${s.view || 'jobs'}${qs ? `?${qs}` : ''}`;
+}
+
+export function jobFilterCount(s) {
+  return [s.city, s.area, s.dept, s.type, s.work, s.company, s.fresh, s.days < MAX_AGE_DAYS].filter(Boolean).length;
+}
+
 /* ---------- saved roles ---------- */
 
 const CSV_FORMULA = /^[=+\-@\t\r]/;

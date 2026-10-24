@@ -32,7 +32,7 @@ async function boot() {
     state.data.pins = withinWindow(mergePins(state.data.pins));
   } catch (e) {
     $('panel').replaceChildren(
-      el('div', { class: 'empty' },
+      el('div', { class: 'empty-side' },
         el('h2', { text: 'Could not load the job data' }),
         el('p', { text: `The file data/jobs.json failed to load (${e.message}). Reload the page, or check that the site is deployed with its data folder.` }))
     );
@@ -203,11 +203,11 @@ function renderList(shown, watchShown) {
   if (!shown.length) {
     kids.push(
       !state.data.generatedAt
-        ? el('div', { class: 'empty' },
+        ? el('div', { class: 'empty-side' },
             el('h2', { text: 'No live roles yet' }),
             el('p', { text: 'The daily refresh has not run. It reads each company’s own job board and fills this map.' }),
             el('code', { text: 'node scripts/fetch-jobs.mjs' }))
-        : el('div', { class: 'empty' },
+        : el('div', { class: 'empty-side' },
             el('h2', { text: 'Nothing matches these filters' }),
             el('p', { text: `Only roles posted in the last ${MAX_AGE_DAYS} days are shown. Try clearing the search and filters.` }))
     );
@@ -215,7 +215,7 @@ function renderList(shown, watchShown) {
   for (const p of shown) {
     const fresh = p.jobs.filter((j) => j.fresher).length;
     kids.push(
-      el('button', { class: 'co', type: 'button', onclick: () => select(p) },
+      el('button', { class: 'co-row', type: 'button', onclick: () => select(p) },
         el('span', { class: 'logo', 'aria-hidden': 'true', text: p.company.trim()[0]?.toUpperCase() || '?' }),
         el('strong', { text: p.company }),
         el('span', { class: 'sub', text: [p.area || state.data.cities[p.city].label, fresh ? `${fresh} for freshers` : null].filter(Boolean).join(', ') }),
@@ -271,13 +271,13 @@ function renderSaved(pins) {
   const kids = [];
   if (!state.storageOk) kids.push(el('p', { class: 'hint', text: 'Your browser blocked storage, so saved roles will be lost when you close this tab.' }));
   if (!items.length) {
-    kids.push(el('div', { class: 'empty' },
+    kids.push(el('div', { class: 'empty-side' },
       el('h2', { text: 'Nothing saved yet' }),
       el('p', { text: 'Open a company and tap the star next to a role. Saved roles stay on this device, and you can mark each one as applied, interview or offer.' })));
   } else {
-    kids.push(el('div', { class: 'savedbar' },
+    kids.push(el('div', { class: 'savedbar-map' },
       el('p', { class: 'hint', text: 'Saved on this device only.' }),
-      el('button', { class: 'btn', type: 'button', onclick: exportCsv }, 'Download as CSV')));
+      el('button', { class: 'btn light', type: 'button', onclick: exportCsv }, 'Download as CSV')));
     for (const s of items) {
       const sel = el('select', { 'aria-label': `Status for ${s.title}` }, STATUSES.map((st) => el('option', { value: st, text: st, selected: st === s.status })));
       sel.addEventListener('change', () => { state.saved[s.id].status = sel.value; save(); });
