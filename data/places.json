@@ -1,0 +1,44 @@
+{
+  "cities": {
+    "jaipur": { "label": "Jaipur", "center": [26.8800, 75.7900], "zoom": 12 },
+    "noida": { "label": "Noida", "center": [28.5600, 77.3600], "zoom": 12 }
+  },
+  "areas": {
+    "jaipur": {
+      "Malviya Nagar": [26.8553, 75.8067],
+      "Vaishali Nagar": [26.9124, 75.7413],
+      "Mansarovar": [26.8505, 75.7628],
+      "Jagatpura": [26.8269, 75.8560],
+      "Sitapura": [26.7900, 75.8300],
+      "C-Scheme": [26.9053, 75.8000],
+      "Jawahar Circle": [26.8430, 75.8030],
+      "Sodala": [26.9100, 75.7700],
+      "Tonk Road": [26.8700, 75.8000],
+      "Bani Park": [26.9300, 75.7900],
+      "Mahindra World City": [26.9400, 75.6000],
+      "Vidhyadhar Nagar": [26.9650, 75.7700]
+    },
+    "noida": {
+      "Sector 16": [28.5780, 77.3170],
+      "Sector 18": [28.5700, 77.3260],
+      "Sector 62": [28.6270, 77.3649],
+      "Sector 63": [28.6270, 77.3790],
+      "Sector 125": [28.5450, 77.3350],
+      "Sector 126": [28.5420, 77.3380],
+      "Sector 132": [28.5030, 77.3880],
+      "Sector 135": [28.5000, 77.4100],
+      "Sector 142": [28.5090, 77.4010],
+      "Noida Expressway": [28.5250, 77.3700],
+      "Greater Noida": [28.4744, 77.5040]
+    }
+  },
+  "offices": {},
+  "watch": [
+    { "name": "CarDekho", "city": "jaipur", "area": "Jagatpura", "site": "https://www.cardekho.com" },
+    { "name": "GirnarSoft", "city": "jaipur", "area": "Sodala", "site": "https://www.girnarsoft.com" },
+    { "name": "Thrillophilia", "city": "jaipur", "area": "Malviya Nagar", "site": "https://www.thrillophilia.com" },
+    { "name": "WoodenStreet", "city": "jaipur", "area": "Sitapura", "site": "https://www.woodenstreet.com" },
+    { "name": "Tax2Win", "city": "jaipur", "area": "Mansarovar", "site": "https://tax2win.in" },
+    { "name": "Celebal Technologies", "city": "jaipur", "area": "Jawahar Circle", "site": "https://celebaltech.com" }
+  ]
+}

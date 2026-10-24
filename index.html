@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Startup Arena · Jaipur and Noida jobs on a map</title>
+  <meta name="description" content="Live open roles at companies in Jaipur and Noida, pinned on a map. Apply on each company's own job board.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Public+Sans:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+  <script defer type="module" src="app.js"></script>
+</head>
+<body>
+  <header class="top">
+    <a class="brand" href="#/jaipur">Startup Arena</a>
+    <nav class="cities" aria-label="City">
+      <a href="#/jaipur" data-city="jaipur">Jaipur</a>
+      <a href="#/noida" data-city="noida">Noida</a>
+    </nav>
+    <p class="stamp" id="stamp"></p>
+  </header>
+
+  <main class="layout">
+    <section class="side" aria-label="Companies and roles">
+      <form class="filters" id="filters" role="search" onsubmit="return false">
+        <label class="field grow">
+          <span>Search roles or companies</span>
+          <input type="search" id="q" placeholder="React, sales, Paytm" autocomplete="off">
+        </label>
+        <label class="field">
+          <span>Area</span>
+          <select id="area"></select>
+        </label>
+        <label class="field">
+          <span>Posted</span>
+          <select id="age">
+            <option value="30">Last 30 days</option>
+            <option value="60">Last 60 days</option>
+            <option value="90" selected>Last 90 days</option>
+            <option value="0">Any time</option>
+          </select>
+        </label>
+        <label class="check">
+          <input type="checkbox" id="fresh">
+          <span>Open to freshers</span>
+        </label>
+      </form>
+
+      <p class="count" id="count" role="status" aria-live="polite"></p>
+      <div class="panel" id="panel"></div>
+    </section>
+
+    <section class="mapwrap" aria-label="Map">
+      <div id="map"></div>
+      <p class="mapnote" id="mapnote" hidden></p>
+    </section>
+  </main>
+</body>
+</html>
