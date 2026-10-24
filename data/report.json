@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-24T09:38:24.330Z",
+  "generatedAt": "2026-10-24T13:42:26.467Z",
   "boardsTried": 46,
   "boardsOk": 31,
   "report": [
@@ -122,8 +122,8 @@
       "ats": "sfapi",
       "slug": "hcltech",
       "status": "ok",
-      "totalOpenRoles": 271,
-      "matched": 101
+      "totalOpenRoles": 275,
+      "matched": 98
     },
     {
       "company": "Healthians",
@@ -237,8 +237,8 @@
       "ats": "lever",
       "slug": "paytm",
       "status": "ok",
-      "totalOpenRoles": 197,
-      "matched": 110
+      "totalOpenRoles": 196,
+      "matched": 109
     },
     {
       "company": "Pine Labs",
@@ -259,7 +259,7 @@
       "ats": "greenhouse",
       "slug": "razorpaysoftwareprivatelimited",
       "status": "ok",
-      "totalOpenRoles": 26,
+      "totalOpenRoles": 25,
       "matched": 0
     },
     {
