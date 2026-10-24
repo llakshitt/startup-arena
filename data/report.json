@@ -1,0 +1,240 @@
+{
+  "generatedAt": "2026-10-24T07:23:43.684Z",
+  "boardsTried": 32,
+  "boardsOk": 9,
+  "report": [
+    {
+      "company": "BrowserStack",
+      "ats": "greenhouse",
+      "slug": "browserstack",
+      "status": "notfound",
+      "error": null
+    },
+    {
+      "company": "Cars24",
+      "ats": "lever",
+      "slug": "cars24",
+      "status": "notfound",
+      "error": null
+    },
+    {
+      "company": "Celebal Technologies",
+      "ats": "workable",
+      "slug": "celebal-technologies",
+      "status": "ok",
+      "totalOpenRoles": 0,
+      "matched": 0
+    },
+    {
+      "company": "Chargebee",
+      "ats": "greenhouse",
+      "slug": "chargebee",
+      "status": "notfound",
+      "error": null
+    },
+    {
+      "company": "CleverTap",
+      "ats": "greenhouse",
+      "slug": "clevertap",
+      "status": "notfound",
+      "error": null
+    },
+    {
+      "company": "Eightfold",
+      "ats": "greenhouse",
+      "slug": "eightfold",
+      "status": "notfound",
+      "error": null
+    },
+    {
+      "company": "Freshworks",
+      "ats": "greenhouse",
+      "slug": "freshworks",
+      "status": "notfound",
+      "error": null
+    },
+    {
+      "company": "Games24x7",
+      "ats": "lever",
+      "slug": "games24x7",
+      "status": "notfound",
+      "error": null
+    },
+    {
+      "company": "Gameskraft",
+      "ats": "lever",
+      "slug": "gameskraft",
+      "status": "notfound",
+      "error": null
+    },
+    {
+      "company": "Gupshup",
+      "ats": "greenhouse",
+      "slug": "gupshup",
+      "status": "notfound",
+      "error": null
+    },
+    {
+      "company": "Healthians",
+      "ats": "lever",
+      "slug": "healthians",
+      "status": "notfound",
+      "error": null
+    },
+    {
+      "company": "HealthKart",
+      "ats": "lever",
+      "slug": "healthkart",
+      "status": "notfound",
+      "error": null
+    },
+    {
+      "company": "Infoedge",
+      "ats": "smartrecruiters",
+      "slug": "InfoEdge",
+      "status": "ok",
+      "totalOpenRoles": 0,
+      "matched": 0
+    },
+    {
+      "company": "Innovaccer",
+      "ats": "greenhouse",
+      "slug": "innovaccer",
+      "status": "notfound",
+      "error": null
+    },
+    {
+      "company": "Jar",
+      "ats": "lever",
+      "slug": "jar",
+      "status": "notfound",
+      "error": null
+    },
+    {
+      "company": "LeadSquared",
+      "ats": "lever",
+      "slug": "leadsquared",
+      "status": "notfound",
+      "error": null
+    },
+    {
+      "company": "Meesho",
+      "ats": "lever",
+      "slug": "meesho",
+      "status": "ok",
+      "totalOpenRoles": 58,
+      "matched": 2
+    },
+    {
+      "company": "Mindtickle",
+      "ats": "lever",
+      "slug": "mindtickle",
+      "status": "ok",
+      "totalOpenRoles": 21,
+      "matched": 0
+    },
+    {
+      "company": "MoEngage",
+      "ats": "greenhouse",
+      "slug": "moengage",
+      "status": "notfound",
+      "error": null
+    },
+    {
+      "company": "Nagarro",
+      "ats": "smartrecruiters",
+      "slug": "Nagarro",
+      "status": "ok",
+      "totalOpenRoles": 0,
+      "matched": 0
+    },
+    {
+      "company": "Paytm",
+      "ats": "lever",
+      "slug": "paytm",
+      "status": "ok",
+      "totalOpenRoles": 197,
+      "matched": 110
+    },
+    {
+      "company": "Pine Labs",
+      "ats": "greenhouse",
+      "slug": "pinelabs",
+      "status": "notfound",
+      "error": null
+    },
+    {
+      "company": "Postman",
+      "ats": "greenhouse",
+      "slug": "postman",
+      "status": "notfound",
+      "error": null
+    },
+    {
+      "company": "Razorpay",
+      "ats": "greenhouse",
+      "slug": "razorpaysoftwareprivatelimited",
+      "status": "ok",
+      "totalOpenRoles": 26,
+      "matched": 0
+    },
+    {
+      "company": "Sarvam AI",
+      "ats": "ashby",
+      "slug": "sarvam",
+      "status": "ok",
+      "totalOpenRoles": 44,
+      "matched": 0
+    },
+    {
+      "company": "Spinny",
+      "ats": "lever",
+      "slug": "spinny",
+      "status": "notfound",
+      "error": null
+    },
+    {
+      "company": "Sprinklr",
+      "ats": "greenhouse",
+      "slug": "sprinklr",
+      "status": "notfound",
+      "error": null
+    },
+    {
+      "company": "Unacademy",
+      "ats": "lever",
+      "slug": "unacademy",
+      "status": "notfound",
+      "error": null
+    },
+    {
+      "company": "Upgrad",
+      "ats": "lever",
+      "slug": "upgrad",
+      "status": "notfound",
+      "error": null
+    },
+    {
+      "company": "Whatfix",
+      "ats": "greenhouse",
+      "slug": "whatfix",
+      "status": "notfound",
+      "error": null
+    },
+    {
+      "company": "Zeta",
+      "ats": "greenhouse",
+      "slug": "zeta",
+      "status": "notfound",
+      "error": null
+    },
+    {
+      "company": "Zscaler",
+      "ats": "greenhouse",
+      "slug": "zscaler",
+      "status": "ok",
+      "totalOpenRoles": 352,
+      "matched": 0
+    }
+  ]
+}
