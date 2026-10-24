@@ -1,7 +1,7 @@
 // Run: node scripts/test-ui.mjs — tests the pages' pure logic (no browser needed).
 import assert from 'node:assert/strict';
 import {
-  filterPins, sortPins, mergePins, areasFor, deptsFor, postedLabel, ageInDays, parseHash, buildHash, activeFilterCount,
+  filterPins, sortPins, mergePins, withinWindow, areasFor, deptsFor, postedLabel, ageInDays, parseHash, buildHash, activeFilterCount,
   cityStats, topHiring, savedToCsv,
 } from '../filter.js';
 
@@ -34,17 +34,24 @@ t('merge: one pin per company and city, roles keep their own area', () => {
   assert.equal(alpha.jobs[0].id, '7'); // newest first
 });
 t('area filter works per role', () => {
-  const r = filterPins(pins, { city: 'jaipur', area: 'Jagatpura', maxAge: 0 }, now);
+  const r = filterPins(pins, { city: 'jaipur', area: 'Jagatpura' }, now);
   assert.deepEqual(r[0].jobs.map((j) => j.id), ['7']);
 });
 t('city filter', () => assert.equal(filterPins(pins, { city: 'noida' }, now).length, 2));
-t('90-day window drops the 200-day-old role but keeps undated ones', () => {
-  const titles = filterPins(pins, { city: 'jaipur', maxAge: 90 }, now)[0].jobs.map((j) => j.title);
-  assert.deepEqual(titles.sort(), ['QA Engineer', 'React Developer', 'Support Associate']);
+t('7-day window: old roles hidden, undated roles age from first sight', () => {
+  const p = [{ company: 'X', city: 'jaipur', jobs: [
+    { id: 'a', title: 'recent', postedAt: day(6) },
+    { id: 'b', title: 'old', postedAt: day(8) },
+    { id: 'c', title: 'undated, seen 2d ago', postedAt: null, firstSeen: day(2) },
+    { id: 'd', title: 'undated, seen 9d ago', postedAt: null, firstSeen: day(9) },
+    { id: 'e', title: 'no dates at all' },
+  ] }, { company: 'Y', city: 'jaipur', jobs: [{ id: 'f', title: 'old only', postedAt: day(30) }] }];
+  const r = withinWindow(p, now);
+  assert.equal(r.length, 1);
+  assert.deepEqual(r[0].jobs.map((j) => j.id), ['a', 'c', 'e']);
 });
-t('any time keeps old roles', () => assert.equal(filterPins(pins, { city: 'jaipur', maxAge: 0 }, now)[0].jobs.length, 4));
 t('freshers only', () => {
-  const r = filterPins(pins, { city: 'jaipur', maxAge: 0, freshers: true }, now);
+  const r = filterPins(pins, { city: 'jaipur', freshers: true }, now);
   assert.deepEqual(r[0].jobs.map((j) => j.title), ['Sales Intern']);
 });
 t('team filter', () => {
@@ -53,8 +60,8 @@ t('team filter', () => {
 });
 t('search by title, team and company name', () => {
   assert.equal(filterPins(pins, { city: 'jaipur', q: 'react' }, now)[0].jobs.length, 1);
-  assert.equal(filterPins(pins, { city: 'jaipur', q: 'sales', maxAge: 0 }, now)[0].jobs.length, 1);
-  assert.equal(filterPins(pins, { city: 'jaipur', q: 'alpha', maxAge: 0 }, now)[0].jobs.length, 4);
+  assert.equal(filterPins(pins, { city: 'jaipur', q: 'sales' }, now)[0].jobs.length, 1);
+  assert.equal(filterPins(pins, { city: 'jaipur', q: 'alpha' }, now)[0].jobs.length, 4);
 });
 t('no matches drops the pin', () => assert.equal(filterPins(pins, { city: 'jaipur', q: 'zzz' }, now).length, 0));
 t('area filter, area and team lists', () => {
@@ -76,20 +83,20 @@ t('date labels', () => {
   assert.equal(ageInDays('garbage', now), null);
 });
 t('url state round-trips', () => {
-  const s = parseHash('#/noida?q=data%20eng&fresh=1&age=30&area=Sector%2062&sort=new&view=map');
-  assert.deepEqual(s, { city: 'noida', q: 'data eng', area: 'Sector 62', dept: '', age: 30, fresh: true, view: 'map', sort: 'new' });
+  const s = parseHash('#/noida?q=data%20eng&fresh=1&area=Sector%2062&sort=new&view=map');
+  assert.deepEqual(s, { city: 'noida', q: 'data eng', area: 'Sector 62', dept: '', fresh: true, view: 'map', sort: 'new' });
   assert.equal(parseHash(buildHash(s)).q, 'data eng');
   assert.deepEqual(parseHash(buildHash(s)), s);
-  assert.equal(buildHash({ city: 'jaipur', q: '', area: '', dept: '', age: 90, fresh: false, view: 'list', sort: 'roles' }), '#/jaipur');
+  assert.equal(buildHash({ city: 'jaipur', q: '', area: '', dept: '', fresh: false, view: 'list', sort: 'roles' }), '#/jaipur');
 });
 t('bad url values fall back safely', () => {
-  const s = parseHash('#/nowhere?age=7&sort=evil&view=x');
-  assert.equal(s.city, 'jaipur'); assert.equal(s.age, 90); assert.equal(s.sort, 'roles'); assert.equal(s.view, 'list');
+  const s = parseHash('#/nowhere?sort=evil&view=x');
+  assert.equal(s.city, 'jaipur'); assert.equal(s.sort, 'roles'); assert.equal(s.view, 'list');
   assert.equal(parseHash('').city, 'jaipur');
 });
 t('active filter count', () => {
   assert.equal(activeFilterCount(parseHash('#/jaipur')), 0);
-  assert.equal(activeFilterCount(parseHash('#/jaipur?fresh=1&age=0&dept=Eng')), 3);
+  assert.equal(activeFilterCount(parseHash('#/jaipur?fresh=1&sort=new&dept=Eng')), 3);
 });
 t('landing numbers', () => {
   assert.deepEqual(cityStats(pins, 'noida'), { roles: 3, companies: 2, freshers: 1 });

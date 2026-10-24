@@ -183,8 +183,15 @@ export function toCityJobs(board, rawJobs, places) {
  * fetchBoard(board) -> { status: 'ok'|'notfound'|'error', rawJobs?: [], error?: string }
  * Injected so the whole pipeline can be tested without a network.
  */
+export const MAX_AGE_DAYS = 7;
+const DAY = 864e5;
+const NEW_FOR_HOURS = 48;
+
 export async function buildDataset({ boards, places, fetchBoard, prev, now = new Date(), concurrency = 6 }) {
-  const prevFirstSeen = new Map((prev?.pins || []).flatMap((p) => p.jobs.map((j) => [j.id, j.firstSeen])));
+  // When did we first see each role? Used for "New" and as the age of roles that have no posted date.
+  const prevSeen = new Map(Object.entries(prev?.seen || {}));
+  for (const p of prev?.pins || []) for (const j of p.jobs) if (!prevSeen.has(j.id)) prevSeen.set(j.id, j.firstSeen);
+  const prevJobs = (prev?.pins || []).flatMap((p) => p.jobs.map((j) => ({ ...j, company: p.company, city: p.city, area: p.area })));
   const report = [];
   const allJobs = [];
   let cursor = 0;
@@ -195,6 +202,11 @@ export async function buildDataset({ boards, places, fetchBoard, prev, now = new
       const res = await fetchBoard(board).catch((e) => ({ status: 'error', error: String(e?.message || e) }));
       if (res.status !== 'ok') {
         report.push({ company: board.name, ats: board.ats, slug: board.slug, status: res.status, error: res.error || null });
+        // A temporary error must not wipe a company off the map: keep what we last saw (the age rule still applies below).
+        if (res.status === 'error') {
+          const prefix = `${board.ats}:${board.slug}:`;
+          allJobs.push(...prevJobs.filter((j) => j.id.startsWith(prefix)));
+        }
         continue;
       }
       const jobs = toCityJobs(board, res.rawJobs, places);
@@ -211,16 +223,20 @@ export async function buildDataset({ boards, places, fetchBoard, prev, now = new
   }
   await Promise.all(Array.from({ length: Math.min(concurrency, boards.length) }, worker));
 
-  // Group into one pin per company + city + area.
+  // Group into one pin per company + city + area. Roles older than MAX_AGE_DAYS are dropped here.
   const pinMap = new Map();
+  const seen = {};
   for (const j of allJobs) {
+    const firstSeen = prevSeen.get(j.id) || now.toISOString();
+    seen[j.id] = firstSeen;
+    const born = new Date(j.postedAt || firstSeen);
+    if (now - born > MAX_AGE_DAYS * DAY) continue;
     const key = `${j.company}|${j.city}|${j.area || ''}`;
     if (!pinMap.has(key)) {
       const xy = pinCoords(j.company, j.city, j.area, places);
       pinMap.set(key, { company: j.company, city: j.city, ...xy, jobs: [] });
     }
-    const firstSeen = prevFirstSeen.get(j.id) || now.toISOString();
-    const isNew = now - new Date(firstSeen) < 7 * 864e5;
+    const isNew = now - new Date(firstSeen) < NEW_FOR_HOURS * 36e5;
     const { company, city, area, ...job } = j;
     pinMap.get(key).jobs.push({ ...job, firstSeen, isNew });
   }
@@ -238,8 +254,10 @@ export async function buildDataset({ boards, places, fetchBoard, prev, now = new
     cities: Object.fromEntries(
       Object.entries(places.cities).map(([k, v]) => [k, { label: v.label, center: v.center, zoom: v.zoom }])
     ),
+    maxAgeDays: MAX_AGE_DAYS,
     pins,
     watch,
+    seen,
   };
   report.sort((a, b) => a.company.localeCompare(b.company));
   return { dataset, report };

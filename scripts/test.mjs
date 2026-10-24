@@ -65,34 +65,57 @@ await t('every board in boards.json uses a known provider', () => {
   for (const b of boards) assert.ok(ADAPTERS[b.ats], `${b.name}: unknown ats ${b.ats}`);
 });
 
-await t('pipeline: dead boards skipped, pins grouped, closed roles drop out, new flag works', async () => {
-  const feeds = { 'lever/paytm': lever, 'greenhouse/innovaccer': greenhouse };
+await t('pipeline: 7-day rule, closed roles drop out, outages keep old data', async () => {
+  const now = new Date('2026-10-24T00:00:00Z');
+  const ago = (d) => new Date(+now - d * 864e5);
+  const feeds = {
+    'lever/paytm': [
+      { id: 'new', text: 'Fresh role', hostedUrl: 'https://l/new', createdAt: +ago(2), categories: { location: 'Noida' } },
+      { id: 'old', text: 'Stale role', hostedUrl: 'https://l/old', createdAt: +ago(9), categories: { location: 'Noida' } },
+      { id: 'edge', text: 'Edge role', hostedUrl: 'https://l/edge', createdAt: +ago(6.9), categories: { location: 'Noida' } },
+    ],
+    'greenhouse/innovaccer': { jobs: [{ id: 7, title: 'Undated Intern', absolute_url: 'https://g/7', location: { name: 'Jaipur' } }] },
+    'greenhouse/zscaler': { jobs: [{ id: 9, title: 'Zscaler role', absolute_url: 'https://g/9', updated_at: ago(1).toISOString(), location: { name: 'Noida' } }] },
+  };
+  let zscalerDown = false;
   const fetchBoard = async (b) => {
     const k = `${b.ats}/${b.slug}`;
-    if (k === 'greenhouse/zscaler') return { status: 'error', error: 'HTTP 500' };
+    if (k === 'greenhouse/zscaler' && zscalerDown) return { status: 'error', error: 'HTTP 500' };
     if (!feeds[k]) return { status: 'notfound' };
     return { status: 'ok', rawJobs: ADAPTERS[b.ats].parse(feeds[k], b.slug) };
   };
   const bs = boards.filter((b) => ['paytm', 'innovaccer', 'zscaler', 'sprinklr'].includes(b.slug));
-  const now = new Date('2026-10-24T00:00:00Z');
-  const first = await buildDataset({ boards: bs, places, fetchBoard, prev: null, now });
-  assert.equal(first.dataset.pins.length, 2);
-  assert.equal(first.report.filter((r) => r.status === 'ok').length, 2);
-  assert.equal(first.report.find((r) => r.slug === 'zscaler').status, 'error');
-  assert.equal(first.report.find((r) => r.slug === 'sprinklr').status, 'notfound');
-  assert.ok(first.dataset.pins.every((p) => p.jobs.every((j) => j.isNew)));
-  assert.ok(first.dataset.pins.every((p) => p.approx === true && p.lat && p.lng));
-  assert.equal(first.dataset.watch.length, 6);
+  const titles = (d) => d.pins.flatMap((p) => p.jobs.map((j) => j.title)).sort();
+  const at = (hours) => new Date(+now + hours * 36e5);
 
-  // Next day: the Paytm role is closed (gone from the API), the Jaipur role remains and is no longer "new".
-  feeds['lever/paytm'] = [];
-  const later = new Date('2026-10-25T00:00:00Z');
-  const second = await buildDataset({ boards: bs, places, fetchBoard, prev: first.dataset, now: later });
-  assert.equal(second.dataset.pins.length, 1);
-  assert.equal(second.dataset.pins[0].jobs[0].firstSeen, '2026-10-24T00:00:00.000Z');
-  const week = new Date('2026-11-05T00:00:00Z');
-  const third = await buildDataset({ boards: bs, places, fetchBoard, prev: second.dataset, now: week });
-  assert.equal(third.dataset.pins[0].jobs[0].isNew, false);
+  // Run 1: the 9-day-old role never appears; undated role is shown (age counted from first sight).
+  const r1 = await buildDataset({ boards: bs, places, fetchBoard, prev: null, now });
+  assert.deepEqual(titles(r1.dataset), ['Edge role', 'Fresh role', 'Undated Intern', 'Zscaler role']);
+  assert.equal(r1.report.find((r) => r.slug === 'sprinklr').status, 'notfound');
+  assert.ok(r1.dataset.pins.every((p) => p.jobs.every((j) => j.isNew)), 'first sight counts as New');
+  assert.equal(r1.dataset.watch.length, 6);
+  assert.equal(r1.dataset.maxAgeDays, 7);
+
+  // Run 2, 12h later, Zscaler's API is down: its role is kept, first-seen is remembered.
+  zscalerDown = true;
+  const r2 = await buildDataset({ boards: bs, places, fetchBoard, prev: r1.dataset, now: at(12) });
+  assert.equal(r2.report.find((r) => r.slug === 'zscaler').status, 'error');
+  assert.ok(titles(r2.dataset).includes('Zscaler role'), 'an outage must not remove a company');
+  assert.equal(r2.dataset.pins.flatMap((p) => p.jobs).find((j) => j.title === 'Undated Intern').firstSeen, now.toISOString());
+
+  // Run 3, 3 days later, Zscaler back: Edge role is now 9.9 days old and drops out; Paytm closed 'Fresh role' upstream.
+  zscalerDown = false;
+  feeds['lever/paytm'] = feeds['lever/paytm'].filter((j) => j.id !== 'new');
+  const r3 = await buildDataset({ boards: bs, places, fetchBoard, prev: r2.dataset, now: at(72) });
+  assert.deepEqual(titles(r3.dataset), ['Undated Intern', 'Zscaler role']);
+  assert.ok(r3.dataset.pins.every((p) => p.jobs.every((j) => j.isNew === false)), 'New expires after 48 hours');
+
+  // Run 4, 8 days after first sight: the undated role ages out too, and its first-seen memory goes with it once it closes.
+  const r4 = await buildDataset({ boards: bs, places, fetchBoard, prev: r3.dataset, now: at(8 * 24) });
+  assert.deepEqual(titles(r4.dataset), []);
+  feeds['greenhouse/innovaccer'] = { jobs: [] };
+  const r5 = await buildDataset({ boards: bs, places, fetchBoard, prev: r4.dataset, now: at(9 * 24) });
+  assert.ok(!('greenhouse:innovaccer:7:jaipur' in r5.dataset.seen));
 });
 
 console.log(`\nAll ${n} checks passed.`);

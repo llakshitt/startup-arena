@@ -1,4 +1,4 @@
-import { cityStats, topHiring } from './filter.js';
+import { cityStats, topHiring, withinWindow, MAX_AGE_DAYS } from './filter.js';
 
 const $ = (id) => document.getElementById(id);
 const el = (tag, props = {}, ...kids) => {
@@ -19,6 +19,7 @@ async function boot() {
     const res = await fetch('data/jobs.json', { cache: 'no-cache' });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     data = await res.json();
+    data.pins = withinWindow(data.pins);
   } catch (e) {
     $('lede').textContent = 'The job data could not be loaded. Reload the page, or open the map directly.';
     $('cities').replaceChildren(cityLink('jaipur', 'Jaipur', null), cityLink('noida', 'Noida', null));
@@ -34,8 +35,8 @@ async function boot() {
 
   $('lede').replaceChildren(
     total
-      ? document.createTextNode(`${plural(total, 'open role', 'open roles')} at ${plural(companies, 'company', 'companies')}, read from each company’s own job board and checked on ${when}.`)
-      : document.createTextNode('The first refresh has not run yet, so there are no live roles to show. Check back soon.')
+      ? document.createTextNode(`${plural(total, 'role', 'roles')} posted in the last ${MAX_AGE_DAYS} days at ${plural(companies, 'company', 'companies')}, read from each company’s own job board and last checked on ${when}.`)
+      : document.createTextNode(`No roles posted in the last ${MAX_AGE_DAYS} days right now. The list refreshes every 5 hours.`)
   );
 
   $('cities').replaceChildren(

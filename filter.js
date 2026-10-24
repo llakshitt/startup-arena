@@ -1,8 +1,7 @@
 // Pure logic shared by the pages. Imported by scripts/test-ui.mjs, so keep it free of DOM and storage access.
 
 export const STATUSES = ['To do', 'Applied', 'Interview', 'Offer', 'Rejected'];
-export const AGE_OPTIONS = [30, 60, 90, 0]; // 0 = any time
-export const DEFAULT_AGE = 90;
+export const MAX_AGE_DAYS = 7; // roles older than this are never shown
 
 export function ageInDays(postedAt, now = Date.now()) {
   if (!postedAt) return null;
@@ -11,11 +10,24 @@ export function ageInDays(postedAt, now = Date.now()) {
 }
 
 /**
- * Pins for one city, each carrying only the roles that pass the filters.
- * Pins with no passing role are dropped. Roles without a posted date are kept,
- * because some boards do not publish one; the page labels them "Date not listed".
+ * Keeps only roles from the last MAX_AGE_DAYS days. A role's age counts from its posted date,
+ * or from when we first saw it when the company publishes no date. The daily data job already
+ * does this; doing it again here means a stale data file can never show an old role.
  */
-export function filterPins(pins, { city, q = '', area = '', dept = '', maxAge = 0, freshers = false }, now = Date.now()) {
+export function withinWindow(pins, now = Date.now()) {
+  const out = [];
+  for (const p of pins) {
+    const jobs = p.jobs.filter((j) => {
+      const age = ageInDays(j.postedAt || j.firstSeen, now);
+      return age === null || age <= MAX_AGE_DAYS;
+    });
+    if (jobs.length) out.push({ ...p, jobs });
+  }
+  return out;
+}
+
+/** Pins for one city, each carrying only the roles that pass the filters. Pins with no passing role are dropped. */
+export function filterPins(pins, { city, q = '', area = '', dept = '', freshers = false }) {
   const needle = q.trim().toLowerCase();
   const out = [];
   for (const p of pins) {
@@ -25,10 +37,6 @@ export function filterPins(pins, { city, q = '', area = '', dept = '', maxAge = 
       if (area && j.area !== area) return false;
       if (freshers && !j.fresher) return false;
       if (dept && j.department !== dept) return false;
-      if (maxAge) {
-        const age = ageInDays(j.postedAt, now);
-        if (age !== null && age > maxAge) return false;
-      }
       if (!needle || companyHit) return true;
       return `${j.title} ${j.department || ''}`.toLowerCase().includes(needle);
     });
@@ -97,13 +105,11 @@ export function postedLabel(postedAt, now = Date.now()) {
 export function parseHash(hash) {
   const m = /^#\/(jaipur|noida)(?:\?(.*))?$/.exec(hash || '');
   const p = new URLSearchParams(m?.[2] || '');
-  const age = Number(p.get('age'));
   return {
     city: m ? m[1] : 'jaipur',
     q: p.get('q') || '',
     area: p.get('area') || '',
     dept: p.get('dept') || '',
-    age: p.has('age') && AGE_OPTIONS.includes(age) ? age : DEFAULT_AGE,
     fresh: p.get('fresh') === '1',
     view: p.get('view') === 'map' ? 'map' : 'list',
     sort: ['roles', 'new', 'name'].includes(p.get('sort')) ? p.get('sort') : 'roles',
@@ -115,7 +121,6 @@ export function buildHash(s) {
   if (s.q) p.set('q', s.q);
   if (s.area) p.set('area', s.area);
   if (s.dept) p.set('dept', s.dept);
-  if (s.age !== DEFAULT_AGE) p.set('age', String(s.age));
   if (s.fresh) p.set('fresh', '1');
   if (s.sort && s.sort !== 'roles') p.set('sort', s.sort);
   if (s.view === 'map') p.set('view', 'map');
@@ -124,7 +129,7 @@ export function buildHash(s) {
 }
 
 export function activeFilterCount(s) {
-  return [s.area, s.dept, s.fresh, s.age !== DEFAULT_AGE, s.sort !== 'roles'].filter(Boolean).length;
+  return [s.area, s.dept, s.fresh, s.sort !== 'roles'].filter(Boolean).length;
 }
 
 /* ---------- landing page numbers ---------- */

@@ -1,5 +1,5 @@
 import {
-  filterPins, sortPins, mergePins, areasFor, deptsFor, postedLabel, parseHash, buildHash, activeFilterCount, savedToCsv, STATUSES, DEFAULT_AGE,
+  filterPins, sortPins, mergePins, withinWindow, areasFor, deptsFor, postedLabel, parseHash, buildHash, activeFilterCount, savedToCsv, STATUSES, MAX_AGE_DAYS,
 } from './filter.js';
 import { loadSaved, persistSaved } from './store.js';
 
@@ -29,7 +29,7 @@ async function boot() {
     const res = await fetch('data/jobs.json', { cache: 'no-cache' });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     state.data = await res.json();
-    state.data.pins = mergePins(state.data.pins);
+    state.data.pins = withinWindow(mergePins(state.data.pins));
   } catch (e) {
     $('panel').replaceChildren(
       el('div', { class: 'empty' },
@@ -40,11 +40,11 @@ async function boot() {
   }
   setupMap();
 
-  for (const id of ['q', 'area', 'dept', 'age', 'sort', 'fresh']) {
+  for (const id of ['q', 'area', 'dept', 'sort', 'fresh']) {
     $(id).addEventListener('input', () => { readInputs(); state.selected = null; replaceHash(); render(); });
   }
   $('clear').addEventListener('click', () => {
-    Object.assign(state, { area: '', dept: '', age: DEFAULT_AGE, fresh: false, sort: 'roles' });
+    Object.assign(state, { area: '', dept: '', fresh: false, sort: 'roles' });
     syncInputs(); state.selected = null; replaceHash(); render();
   });
   $('filterBtn').addEventListener('click', () => toggleFilters());
@@ -98,7 +98,6 @@ function readInputs() {
   state.q = $('q').value;
   state.area = $('area').value;
   state.dept = $('dept').value;
-  state.age = Number($('age').value);
   state.sort = $('sort').value;
   state.fresh = $('fresh').checked;
 }
@@ -107,7 +106,6 @@ function syncInputs() {
   $('q').value = state.q;
   $('area').value = state.area;
   $('dept').value = state.dept;
-  $('age').value = String(state.age);
   $('sort').value = state.sort;
   $('fresh').checked = state.fresh;
 }
@@ -154,7 +152,7 @@ function setView(view) {
 
 /* ---------- render ---------- */
 const currentShown = () =>
-  sortPins(filterPins(state.data.pins, { city: state.city, q: state.q, area: state.area, dept: state.dept, maxAge: state.age, freshers: state.fresh }), state.sort);
+  sortPins(filterPins(state.data.pins, { city: state.city, q: state.q, area: state.area, dept: state.dept, freshers: state.fresh }), state.sort);
 
 function render() {
   const { pins, watch, generatedAt, cities } = state.data;
@@ -187,7 +185,7 @@ function render() {
   }
 
   $('count').textContent = roles
-    ? `${roles} open ${roles === 1 ? 'role' : 'roles'} at ${shown.length} ${shown.length === 1 ? 'company' : 'companies'} in ${label}`
+    ? `${roles} ${roles === 1 ? 'role' : 'roles'} from the last ${MAX_AGE_DAYS} days at ${shown.length} ${shown.length === 1 ? 'company' : 'companies'} in ${label}`
     : `No open roles match in ${label}`;
 
   if (state.selected) {
@@ -210,7 +208,7 @@ function renderList(shown, watchShown) {
             el('code', { text: 'node scripts/fetch-jobs.mjs' }))
         : el('div', { class: 'empty' },
             el('h2', { text: 'Nothing matches these filters' }),
-            el('p', { text: state.age ? 'Try “Any time” under Posted, or clear the search and filters.' : 'Try clearing the search and filters.' }))
+            el('p', { text: `Only roles posted in the last ${MAX_AGE_DAYS} days are shown. Try clearing the search and filters.` }))
     );
   }
   for (const p of shown) {

@@ -8,13 +8,13 @@ No dependencies and no build step. The site is plain HTML, CSS and JavaScript. T
 
 `scripts/fetch-jobs.mjs` calls the public job-board API of each company in `data/boards.json` (Lever, Greenhouse, Ashby, Workable, SmartRecruiters). It keeps only roles whose location mentions Jaipur or Noida and writes `data/jobs.json`. A role that a company closes disappears from its API, so it disappears from the map the next day. Nothing is typed in by hand.
 
-The GitHub Action in `.github/workflows/refresh.yml` runs this every day at 07:00 IST, commits the new data, and Vercel redeploys.
+The GitHub Action in `.github/workflows/refresh.yml` runs this every 5 hours (00:00, 05:00, 10:00, 15:00 and 20:00 UTC), commits the new data, and GitHub Pages republishes the site.
 
-## Set up
+**7-day rule.** Only roles posted in the last 7 days are kept. A role's age counts from the posted date, or from the day it was first seen when the company publishes no date. Older roles are removed from `data/jobs.json` on the next refresh, and the pages hide them as well in case the data file is stale. If a company's job board has a temporary error, its last known roles are kept until they reach 7 days. `MAX_AGE_DAYS` is set in `scripts/lib.mjs` and `filter.js`.
 
-1. Push this folder to a new GitHub repo.
-2. Import the repo in Vercel. Framework preset: Other. No build command, no output directory.
-3. In GitHub, open Actions, pick "Refresh jobs" and click Run workflow once. The map fills with live roles.
+## Hosting
+
+The site is served by GitHub Pages from the `main` branch, root folder (Settings, Pages). Any static host works too, because there is no build step. Map tiles come from OpenStreetMap, which asks for light use only; for heavy traffic switch to a tile provider with a key.
 
 To run it on your own machine: `node scripts/fetch-jobs.mjs`, then serve the folder (for example `npx serve .`).
 
