@@ -5,11 +5,6 @@
     "slug": "paytm"
   },
   {
-    "name": "Innovaccer",
-    "ats": "greenhouse",
-    "slug": "innovaccer"
-  },
-  {
     "name": "Chargebee",
     "ats": "greenhouse",
     "slug": "chargebee"
@@ -247,10 +242,8 @@
     "url": "https://woodenstreet.zohorecruit.in/jobs/Careers"
   },
   {
-    "name": "Eightfold",
-    "ats": "eightfold",
-    "slug": "eightfold",
-    "host": "app.eightfold.ai",
-    "domain": "eightfold.ai"
+    "name": "Innovaccer",
+    "ats": "workable",
+    "slug": "innovaccer-analytics"
   }
 ]

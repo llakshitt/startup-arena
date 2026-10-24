@@ -85,7 +85,12 @@ await t('pipeline: 7-day rule, closed roles drop out, outages keep old data', as
     if (!feeds[k]) return { status: 'notfound' };
     return { status: 'ok', rawJobs: ADAPTERS[b.ats].parse(feeds[k], b.slug) };
   };
-  const bs = boards.filter((b) => ['paytm', 'innovaccer', 'zscaler', 'sprinklr'].includes(b.slug));
+  const bs = [
+    { name: 'Paytm', ats: 'lever', slug: 'paytm' },
+    { name: 'Innovaccer', ats: 'greenhouse', slug: 'innovaccer' },
+    { name: 'Zscaler', ats: 'greenhouse', slug: 'zscaler' },
+    { name: 'Sprinklr', ats: 'greenhouse', slug: 'sprinklr' },
+  ];
   const titles = (d) => d.pins.flatMap((p) => p.jobs.map((j) => j.title)).sort();
   const at = (hours) => new Date(+now + hours * 36e5);
 

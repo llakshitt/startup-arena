@@ -1,11 +1,6 @@
 [
- {"url":"https://careers.hcltech.com/search/?createNewAlert=false&q=&locationsearch=Noida&sortColumn=referencedate&sortDirection=desc","find":"jobTitle-link","n":2200},
- {"url":"https://careers.hcltech.com/search/?createNewAlert=false&q=&locationsearch=Noida&sortColumn=referencedate&sortDirection=desc","find":"data-row","n":1800},
- {"url":"https://careers.hcltech.com/search/?createNewAlert=false&q=&locationsearch=Noida&sortColumn=referencedate&sortDirection=desc","find":"paginationLabel","n":600},
- {"url":"https://www.pinelabs.com/careers/open-jobs","find":"Noida","n":1500},
- {"url":"https://www.pinelabs.com/careers/open-jobs","find":"\\\"jobs\\\"","n":1500},
- {"url":"https://www.postman.com/company/careers/open-positions/","find":"Noida","n":1200},
- {"url":"https://www.postman.com/company/careers/open-positions/","find":"gh_jid","n":800},
- {"url":"https://apply.workable.com/j/6ADD750EC1","find":"datePosted","n":900},
- {"url":"https://apply.workable.com/api/v2/accounts/innovaccer/jobs","method":"POST","body":{"query":"","location":[],"department":[],"worktype":[],"remote":[]},"accept":"application/json","n":900}
+ {"url":"https://careers.hcltech.com/search/?createNewAlert=false&q=&locationsearch=Noida&sortColumn=referencedate&sortDirection=desc","find":"/job/","n":1800},
+ {"url":"https://careers.hcltech.com/search/?createNewAlert=false&q=&locationsearch=Noida&sortColumn=referencedate&sortDirection=desc","find":"Noida,","n":1500},
+ {"url":"https://careers.hcltech.com/search/?createNewAlert=false&q=&locationsearch=Noida&sortColumn=referencedate&sortDirection=desc","find":"searchResults","n":1500},
+ {"url":"https://careers.hcltech.com/services/recruiting/v1/jobs","method":"POST","body":{"locale":"en_US","pageNumber":0,"sortBy":"","keywords":"","location":"Noida","facetFilters":{},"brand":"","skills":[],"categoryId":0,"alertId":"","rcmCandidateId":""},"accept":"application/json","n":1500}
 ]
