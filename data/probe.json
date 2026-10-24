@@ -1,0 +1,206 @@
+{
+  "generatedAt": "2026-10-24T07:56:41.787Z",
+  "tried": 7350,
+  "hits": [
+    {
+      "company": "Atlan",
+      "ats": "ashby",
+      "slug": "atlan",
+      "total": 6,
+      "jaipur": 0,
+      "noida": 0
+    },
+    {
+      "company": "Cars24",
+      "ats": "smartrecruiters",
+      "slug": "cars24",
+      "total": 1,
+      "jaipur": 0,
+      "noida": 0
+    },
+    {
+      "company": "Chargebee",
+      "ats": "workable",
+      "slug": "chargebee",
+      "total": 0,
+      "jaipur": 0,
+      "noida": 0
+    },
+    {
+      "company": "Cred",
+      "ats": "lever",
+      "slug": "cred",
+      "total": 8,
+      "jaipur": 0,
+      "noida": 0
+    },
+    {
+      "company": "Freshworks",
+      "ats": "smartrecruiters",
+      "slug": "freshworks",
+      "total": 100,
+      "jaipur": 0,
+      "noida": 0
+    },
+    {
+      "company": "Freshworks",
+      "ats": "lever",
+      "slug": "freshworks",
+      "total": 0,
+      "jaipur": 0,
+      "noida": 0
+    },
+    {
+      "company": "Groww",
+      "ats": "greenhouse",
+      "slug": "groww",
+      "total": 10,
+      "jaipur": 0,
+      "noida": 0
+    },
+    {
+      "company": "Hevo Data",
+      "ats": "lever",
+      "slug": "hevodata",
+      "total": 53,
+      "jaipur": 0,
+      "noida": 0
+    },
+    {
+      "company": "Hevo Data",
+      "ats": "lever",
+      "slug": "hevo",
+      "total": 1,
+      "jaipur": 0,
+      "noida": 0
+    },
+    {
+      "company": "Innovaccer",
+      "ats": "workable",
+      "slug": "innovaccer",
+      "total": 0,
+      "jaipur": 0,
+      "noida": 0
+    },
+    {
+      "company": "Innovaccer",
+      "ats": "workable",
+      "slug": "innovaccer-inc",
+      "total": 0,
+      "jaipur": 0,
+      "noida": 0
+    },
+    {
+      "company": "Ixigo",
+      "ats": "smartrecruiters",
+      "slug": "ixigo",
+      "total": 7,
+      "jaipur": 0,
+      "noida": 0
+    },
+    {
+      "company": "Navi",
+      "ats": "ashby",
+      "slug": "navi",
+      "total": 4,
+      "jaipur": 0,
+      "noida": 0
+    },
+    {
+      "company": "Observe.AI",
+      "ats": "greenhouse",
+      "slug": "observeai",
+      "total": 9,
+      "jaipur": 0,
+      "noida": 0
+    },
+    {
+      "company": "Pine Labs",
+      "ats": "greenhouse",
+      "slug": "pine",
+      "total": 1,
+      "jaipur": 0,
+      "noida": 0
+    },
+    {
+      "company": "Postman",
+      "ats": "workable",
+      "slug": "postman",
+      "total": 0,
+      "jaipur": 0,
+      "noida": 0
+    },
+    {
+      "company": "Postman",
+      "ats": "workable",
+      "slug": "postman-inc",
+      "total": 0,
+      "jaipur": 0,
+      "noida": 0
+    },
+    {
+      "company": "Sarvam",
+      "ats": "ashby",
+      "slug": "sarvam",
+      "total": 44,
+      "jaipur": 0,
+      "noida": 0
+    },
+    {
+      "company": "Slice",
+      "ats": "greenhouse",
+      "slug": "slice",
+      "total": 22,
+      "jaipur": 0,
+      "noida": 0
+    },
+    {
+      "company": "Sprinklr",
+      "ats": "workable",
+      "slug": "sprinklr",
+      "total": 0,
+      "jaipur": 0,
+      "noida": 0
+    },
+    {
+      "company": "Sprinklr",
+      "ats": "workable",
+      "slug": "sprinklr-inc",
+      "total": 0,
+      "jaipur": 0,
+      "noida": 0
+    },
+    {
+      "company": "Swiggy",
+      "ats": "smartrecruiters",
+      "slug": "swiggy",
+      "total": 100,
+      "jaipur": 1,
+      "noida": 3
+    },
+    {
+      "company": "Unacademy",
+      "ats": "smartrecruiters",
+      "slug": "unacademy",
+      "total": 3,
+      "jaipur": 0,
+      "noida": 0
+    },
+    {
+      "company": "Whatfix",
+      "ats": "smartrecruiters",
+      "slug": "whatfix",
+      "total": 1,
+      "jaipur": 0,
+      "noida": 0
+    },
+    {
+      "company": "Zeta",
+      "ats": "lever",
+      "slug": "zeta",
+      "total": 27,
+      "jaipur": 0,
+      "noida": 0
+    }
+  ]
+}
