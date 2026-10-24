@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Map · Startup Arena</title>
+  <meta name="description" content="Open roles in Jaipur and Noida on a map. Filter by area, team and freshers, save roles and track your applications.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Public+Sans:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+  <script defer type="module" src="app.js"></script>
+</head>
+<body data-page="map" data-view="list">
+  <header class="top">
+    <a class="brand" href="index.html">Startup Arena</a>
+    <nav class="cities" aria-label="City">
+      <a href="#/jaipur" data-city="jaipur">Jaipur</a>
+      <a href="#/noida" data-city="noida">Noida</a>
+    </nav>
+    <p class="stamp" id="stamp"></p>
+  </header>
+
+  <main class="layout">
+    <section class="side" aria-label="Companies and roles">
+      <div class="searchrow">
+        <label class="sr" for="q">Search roles or companies</label>
+        <input type="search" id="q" placeholder="Search roles or companies" autocomplete="off" enterkeyhint="search">
+        <button type="button" class="filterbtn" id="filterBtn" aria-expanded="false" aria-controls="filters">
+          Filters <span class="badge" id="filterCount"></span>
+        </button>
+      </div>
+
+      <form class="filters" id="filters" onsubmit="return false">
+        <label class="field"><span>Area</span><select id="area"></select></label>
+        <label class="field"><span>Team</span><select id="dept"></select></label>
+        <label class="field">
+          <span>Posted</span>
+          <select id="age">
+            <option value="30">Last 30 days</option>
+            <option value="60">Last 60 days</option>
+            <option value="90">Last 90 days</option>
+            <option value="0">Any time</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Sort by</span>
+          <select id="sort">
+            <option value="roles">Most open roles</option>
+            <option value="new">Newest posting</option>
+            <option value="name">Company name</option>
+          </select>
+        </label>
+        <label class="check"><input type="checkbox" id="fresh"><span>Open to freshers</span></label>
+        <button type="button" class="clear" id="clear" hidden>Clear filters</button>
+      </form>
+
+      <div class="tabs">
+        <button type="button" id="tabCompanies" aria-pressed="true">Companies</button>
+        <button type="button" id="tabSaved" aria-pressed="false">Saved <span id="savedCount"></span></button>
+      </div>
+      <p class="count" id="count" role="status" aria-live="polite"></p>
+      <div class="panel" id="panel"></div>
+    </section>
+
+    <section class="mapwrap" aria-label="Map">
+      <div id="map"></div>
+      <div class="sheet" id="sheet" hidden></div>
+      <p class="mapnote" id="mapnote" hidden></p>
+    </section>
+  </main>
+
+  <nav class="viewbar" aria-label="Switch view">
+    <button type="button" data-view="list" aria-pressed="true">List</button>
+    <button type="button" data-view="map" aria-pressed="false">Map</button>
+  </nav>
+</body>
+</html>

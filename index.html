@@ -2,61 +2,62 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Startup Arena · Jaipur and Noida jobs on a map</title>
   <meta name="description" content="Live open roles at companies in Jaipur and Noida, pinned on a map. Apply on each company's own job board.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Public+Sans:wght@400;500;600&display=swap">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
   <link rel="stylesheet" href="style.css">
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-  <script defer type="module" src="app.js"></script>
+  <script defer type="module" src="landing.js"></script>
 </head>
-<body>
+<body data-page="home">
   <header class="top">
-    <a class="brand" href="#/jaipur">Startup Arena</a>
-    <nav class="cities" aria-label="City">
-      <a href="#/jaipur" data-city="jaipur">Jaipur</a>
-      <a href="#/noida" data-city="noida">Noida</a>
+    <a class="brand" href="index.html">Startup Arena</a>
+    <nav class="toplinks" aria-label="Main">
+      <a href="map.html#/jaipur">Map</a>
+      <a href="#faq">Questions</a>
     </nav>
-    <p class="stamp" id="stamp"></p>
   </header>
 
-  <main class="layout">
-    <section class="side" aria-label="Companies and roles">
-      <form class="filters" id="filters" role="search" onsubmit="return false">
-        <label class="field grow">
-          <span>Search roles or companies</span>
-          <input type="search" id="q" placeholder="React, sales, Paytm" autocomplete="off">
-        </label>
-        <label class="field">
-          <span>Area</span>
-          <select id="area"></select>
-        </label>
-        <label class="field">
-          <span>Posted</span>
-          <select id="age">
-            <option value="30">Last 30 days</option>
-            <option value="60">Last 60 days</option>
-            <option value="90" selected>Last 90 days</option>
-            <option value="0">Any time</option>
-          </select>
-        </label>
-        <label class="check">
-          <input type="checkbox" id="fresh">
-          <span>Open to freshers</span>
-        </label>
-      </form>
-
-      <p class="count" id="count" role="status" aria-live="polite"></p>
-      <div class="panel" id="panel"></div>
+  <main>
+    <section class="hero wrap">
+      <h1>Open roles in Jaipur and Noida, on one map</h1>
+      <p id="lede">Loading the latest roles…</p>
+      <div class="citycards" id="cities"></div>
     </section>
 
-    <section class="mapwrap" aria-label="Map">
-      <div id="map"></div>
-      <p class="mapnote" id="mapnote" hidden></p>
+    <section class="block">
+      <div class="wrap">
+        <h2>Hiring the most right now</h2>
+        <p>Companies with the most open roles in either city. Tap one to see its roles.</p>
+        <ul class="bars" id="top"></ul>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="wrap">
+        <h2>How it works</h2>
+        <ol class="steps">
+          <li><h3>Pick a city</h3><p>Each company is pinned near the office you would walk into. Filter by area, team, or roles open to freshers.</p></li>
+          <li><h3>Open a company</h3><p>See every open role with its team, type and how recently it was posted. Save the ones you like with the star.</p></li>
+          <li><h3>Apply at the source</h3><p>Every role links to the company’s own job board. Track what you applied to and download the list as a CSV.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="block faq" id="faq">
+      <div class="wrap">
+        <h2>Questions</h2>
+        <details><summary>Where do the roles come from?</summary><p>From each company’s own public job board. A daily refresh reads those boards, keeps the roles located in Jaipur or Noida, and links back to the original listing.</p></details>
+        <details><summary>How fresh is the data?</summary><p>It refreshes once a day. When a company closes a role it disappears from the board, so it disappears here at the next refresh. The time of the last check is shown on the map page.</p></details>
+        <details><summary>Why is a company I know missing?</summary><p>Only companies whose job boards are open to the public can be read automatically. Many Jaipur companies hire through LinkedIn, Naukri or their own careers page. Those appear on the map as outlined pins without a job feed.</p></details>
+        <details><summary>Do you apply for me?</summary><p>No. You apply on the company’s own page. This site helps you find roles and keep track of them.</p></details>
+        <details><summary>Where are my saved roles stored?</summary><p>Only in your own browser, on the device you used. There is no account and nothing is uploaded. If you clear your browser data or switch devices, download the CSV first.</p></details>
+      </div>
     </section>
   </main>
+
+  <footer class="wrap foot">Roles come from each company’s own job board and link back to it. Pin locations are approximate unless noted.</footer>
 </body>
 </html>
