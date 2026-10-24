@@ -48,6 +48,7 @@ async function boot() {
     syncInputs(); state.selected = null; replaceHash(); render();
   });
   $('filterBtn').addEventListener('click', () => toggleFilters());
+  $('filterDone').addEventListener('click', () => { toggleFilters(false); $('panel').scrollTop = 0; $('filterBtn').focus(); });
   $('tabCompanies').addEventListener('click', () => setTab('companies'));
   $('tabSaved').addEventListener('click', () => setTab('saved'));
   for (const b of document.querySelectorAll('.viewbar button')) b.addEventListener('click', () => setView(b.dataset.view));

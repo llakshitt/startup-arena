@@ -140,6 +140,14 @@ export function cityStats(pins, city) {
   return { roles: jobs.length, companies: new Set(mine.map((p) => p.company)).size, freshers: jobs.filter((j) => j.fresher).length };
 }
 
+/** The most recently posted roles across both cities, newest first. */
+export function newestRoles(pins, limit = 6) {
+  return pins
+    .flatMap((p) => p.jobs.map((j) => ({ ...j, company: p.company, city: p.city })))
+    .sort((a, b) => (b.postedAt || b.firstSeen || '').localeCompare(a.postedAt || a.firstSeen || ''))
+    .slice(0, limit);
+}
+
 export function topHiring(pins, limit = 8) {
   const by = new Map();
   for (const p of pins) {

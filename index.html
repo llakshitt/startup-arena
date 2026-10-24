@@ -5,13 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Startup Arena · Jaipur and Noida jobs on a map</title>
   <meta name="description" content="Live open roles at companies in Jaipur and Noida, pinned on a map. Apply on each company's own job board.">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2314213d'/%3E%3Ccircle cx='16' cy='14' r='6' fill='%23b82d61'/%3E%3Ccircle cx='16' cy='14' r='2.5' fill='%23fff'/%3E%3Cpath d='M16 28 10 17h12z' fill='%23b82d61'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Public+Sans:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Public+Sans:wght@400;500;600;700&display=swap">
   <link rel="stylesheet" href="style.css">
   <script defer type="module" src="landing.js"></script>
 </head>
 <body data-page="home">
+  <a class="skip" href="#main">Skip to content</a>
   <header class="top">
     <a class="brand" href="index.html">Startup Arena</a>
     <nav class="toplinks" aria-label="Main">
@@ -20,18 +23,29 @@
     </nav>
   </header>
 
-  <main>
+  <main id="main">
     <section class="hero wrap">
-      <h1>Open roles in Jaipur and Noida, on one map</h1>
+      <h1>Jobs in Jaipur and Noida, on a map</h1>
       <p id="lede">Loading the latest roles…</p>
-      <div class="citycards" id="cities"></div>
+      <div class="citycards" id="cities">
+        <div class="citycard skeleton" aria-hidden="true"></div>
+        <div class="citycard skeleton" aria-hidden="true"></div>
+      </div>
+      <noscript><p class="notice">This site needs JavaScript. <a href="map.html">Open the map</a>.</p></noscript>
     </section>
 
     <section class="block">
-      <div class="wrap">
-        <h2>Hiring the most right now</h2>
-        <p>Companies with the most roles from the last 7 days in either city. Tap one to see its roles.</p>
-        <ul class="bars" id="top"></ul>
+      <div class="wrap twocol">
+        <div>
+          <h2>Newest roles</h2>
+          <p class="intro">The latest postings from the last 7 days. Each one opens on the company’s own job board.</p>
+          <ul class="newest" id="newest"></ul>
+        </div>
+        <div>
+          <h2>Hiring the most</h2>
+          <p class="intro">Companies with the most open roles. Tap one to see them on the map.</p>
+          <ul class="bars" id="top"></ul>
+        </div>
       </div>
     </section>
 
@@ -39,8 +53,8 @@
       <div class="wrap">
         <h2>How it works</h2>
         <ol class="steps">
-          <li><h3>Pick a city</h3><p>Each company is pinned near the office you would walk into. Filter by area, team, or roles open to freshers.</p></li>
-          <li><h3>Open a company</h3><p>See every open role with its team, type and how recently it was posted. Save the ones you like with the star.</p></li>
+          <li><h3>Pick a city</h3><p>Each company is pinned near the office. Filter by area, team, or roles open to freshers.</p></li>
+          <li><h3>Open a company</h3><p>See every open role with its team, type and how recently it was posted. Star the ones you like.</p></li>
           <li><h3>Apply at the source</h3><p>Every role links to the company’s own job board. Track what you applied to and download the list as a CSV.</p></li>
         </ol>
       </div>
@@ -58,6 +72,6 @@
     </section>
   </main>
 
-  <footer class="wrap foot">Roles come from each company’s own job board and link back to it. Pin locations are approximate unless noted.</footer>
+  <footer class="wrap foot">Roles come from each company’s own job board and link back to it. Pin locations are approximate unless noted. Map data © OpenStreetMap contributors.</footer>
 </body>
 </html>

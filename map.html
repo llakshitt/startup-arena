@@ -5,15 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Map · Startup Arena</title>
   <meta name="description" content="Open roles in Jaipur and Noida on a map. Filter by area, team and freshers, save roles and track your applications.">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2314213d'/%3E%3Ccircle cx='16' cy='14' r='6' fill='%23b82d61'/%3E%3Ccircle cx='16' cy='14' r='2.5' fill='%23fff'/%3E%3Cpath d='M16 28 10 17h12z' fill='%23b82d61'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Public+Sans:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Public+Sans:wght@400;500;600;700&display=swap">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
   <link rel="stylesheet" href="style.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
   <script defer type="module" src="app.js"></script>
 </head>
 <body data-page="map" data-view="list">
+  <a class="skip" href="#panel">Skip to results</a>
   <header class="top">
     <a class="brand" href="index.html">Startup Arena</a>
     <nav class="cities" aria-label="City">
@@ -24,6 +27,7 @@
   </header>
 
   <main class="layout">
+    <h1 class="sr">Open roles map</h1>
     <section class="side" aria-label="Companies and roles">
       <div class="searchrow">
         <label class="sr" for="q">Search roles or companies</label>
@@ -45,15 +49,23 @@
           </select>
         </label>
         <label class="check"><input type="checkbox" id="fresh"><span>Open to freshers</span></label>
-        <button type="button" class="clear" id="clear" hidden>Clear filters</button>
+        <div class="filteractions">
+          <button type="button" class="clear" id="clear" hidden>Clear filters</button>
+          <button type="button" class="done" id="filterDone">Show results</button>
+        </div>
       </form>
 
       <div class="tabs">
         <button type="button" id="tabCompanies" aria-pressed="true">Companies</button>
         <button type="button" id="tabSaved" aria-pressed="false">Saved <span id="savedCount"></span></button>
       </div>
-      <p class="count" id="count" role="status" aria-live="polite"></p>
-      <div class="panel" id="panel"></div>
+      <p class="count" id="count" role="status" aria-live="polite">Loading roles…</p>
+      <div class="panel" id="panel">
+        <div class="skel" aria-hidden="true"><i></i></div>
+        <div class="skel" aria-hidden="true"><i></i></div>
+        <div class="skel" aria-hidden="true"><i></i></div>
+        <div class="skel" aria-hidden="true"><i></i></div>
+      </div>
     </section>
 
     <section class="mapwrap" aria-label="Map">
