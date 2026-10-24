@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-10-24T09:33:05.425Z",
-  "boardsTried": 47,
-  "boardsOk": 29,
+  "generatedAt": "2026-10-24T09:38:24.330Z",
+  "boardsTried": 46,
+  "boardsOk": 31,
   "report": [
     {
       "company": "Adobe",
@@ -73,13 +73,6 @@
       "error": null
     },
     {
-      "company": "Eightfold",
-      "ats": "eightfold",
-      "slug": "eightfold",
-      "status": "error",
-      "error": "eightfold: error HTTP 403"
-    },
-    {
       "company": "Fractal",
       "ats": "workday",
       "slug": "fractal",
@@ -126,10 +119,11 @@
     },
     {
       "company": "HCLTech",
-      "ats": "successfactors",
+      "ats": "sfapi",
       "slug": "hcltech",
-      "status": "error",
-      "error": "successfactors: page layout not recognised"
+      "status": "ok",
+      "totalOpenRoles": 271,
+      "matched": 101
     },
     {
       "company": "Healthians",
@@ -163,10 +157,11 @@
     },
     {
       "company": "Innovaccer",
-      "ats": "greenhouse",
-      "slug": "innovaccer",
-      "status": "notfound",
-      "error": null
+      "ats": "workable",
+      "slug": "innovaccer-analytics",
+      "status": "ok",
+      "totalOpenRoles": 91,
+      "matched": 51
     },
     {
       "company": "Ixigo",
