@@ -1,0 +1,26 @@
+name: Probe boards
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Probe providers
+        run: node scripts/probe-boards.mjs
+      - name: Commit result
+        run: |
+          git config user.name "arena-bot"
+          git config user.email "arena-bot@users.noreply.github.com"
+          git add data/probe.json
+          git diff --staged --quiet || git commit -m "Probe boards $(date -u +%F)"
+          git pull --rebase origin main
+          git push
