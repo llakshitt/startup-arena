@@ -1,34 +1,207 @@
 [
-  { "name": "Paytm", "ats": "lever", "slug": "paytm" },
-  { "name": "Innovaccer", "ats": "greenhouse", "slug": "innovaccer" },
-  { "name": "Sprinklr", "ats": "greenhouse", "slug": "sprinklr" },
-  { "name": "BrowserStack", "ats": "greenhouse", "slug": "browserstack" },
-  { "name": "Chargebee", "ats": "greenhouse", "slug": "chargebee" },
-  { "name": "Postman", "ats": "greenhouse", "slug": "postman" },
-  { "name": "Razorpay", "ats": "greenhouse", "slug": "razorpaysoftwareprivatelimited" },
-  { "name": "Zscaler", "ats": "greenhouse", "slug": "zscaler" },
-  { "name": "Eightfold", "ats": "greenhouse", "slug": "eightfold" },
-  { "name": "CleverTap", "ats": "greenhouse", "slug": "clevertap" },
-  { "name": "MoEngage", "ats": "greenhouse", "slug": "moengage" },
-  { "name": "Freshworks", "ats": "greenhouse", "slug": "freshworks" },
-  { "name": "Zeta", "ats": "greenhouse", "slug": "zeta" },
-  { "name": "Gupshup", "ats": "greenhouse", "slug": "gupshup" },
-  { "name": "Whatfix", "ats": "greenhouse", "slug": "whatfix" },
-  { "name": "Mindtickle", "ats": "lever", "slug": "mindtickle" },
-  { "name": "Unacademy", "ats": "lever", "slug": "unacademy" },
-  { "name": "LeadSquared", "ats": "lever", "slug": "leadsquared" },
-  { "name": "Meesho", "ats": "lever", "slug": "meesho" },
-  { "name": "Upgrad", "ats": "lever", "slug": "upgrad" },
-  { "name": "Games24x7", "ats": "lever", "slug": "games24x7" },
-  { "name": "Gameskraft", "ats": "lever", "slug": "gameskraft" },
-  { "name": "Spinny", "ats": "lever", "slug": "spinny" },
-  { "name": "Cars24", "ats": "lever", "slug": "cars24" },
-  { "name": "Jar", "ats": "lever", "slug": "jar" },
-  { "name": "Pine Labs", "ats": "greenhouse", "slug": "pinelabs" },
-  { "name": "Healthians", "ats": "lever", "slug": "healthians" },
-  { "name": "HealthKart", "ats": "lever", "slug": "healthkart" },
-  { "name": "Celebal Technologies", "ats": "workable", "slug": "celebal-technologies" },
-  { "name": "Infoedge", "ats": "smartrecruiters", "slug": "InfoEdge" },
-  { "name": "Nagarro", "ats": "smartrecruiters", "slug": "Nagarro" },
-  { "name": "Sarvam AI", "ats": "ashby", "slug": "sarvam" }
+  {
+    "name": "Paytm",
+    "ats": "lever",
+    "slug": "paytm"
+  },
+  {
+    "name": "Innovaccer",
+    "ats": "greenhouse",
+    "slug": "innovaccer"
+  },
+  {
+    "name": "Sprinklr",
+    "ats": "greenhouse",
+    "slug": "sprinklr"
+  },
+  {
+    "name": "BrowserStack",
+    "ats": "greenhouse",
+    "slug": "browserstack"
+  },
+  {
+    "name": "Chargebee",
+    "ats": "greenhouse",
+    "slug": "chargebee"
+  },
+  {
+    "name": "Postman",
+    "ats": "greenhouse",
+    "slug": "postman"
+  },
+  {
+    "name": "Razorpay",
+    "ats": "greenhouse",
+    "slug": "razorpaysoftwareprivatelimited"
+  },
+  {
+    "name": "Zscaler",
+    "ats": "greenhouse",
+    "slug": "zscaler"
+  },
+  {
+    "name": "Eightfold",
+    "ats": "greenhouse",
+    "slug": "eightfold"
+  },
+  {
+    "name": "CleverTap",
+    "ats": "greenhouse",
+    "slug": "clevertap"
+  },
+  {
+    "name": "MoEngage",
+    "ats": "greenhouse",
+    "slug": "moengage"
+  },
+  {
+    "name": "Freshworks",
+    "ats": "smartrecruiters",
+    "slug": "freshworks"
+  },
+  {
+    "name": "Zeta",
+    "ats": "lever",
+    "slug": "zeta"
+  },
+  {
+    "name": "Gupshup",
+    "ats": "greenhouse",
+    "slug": "gupshup"
+  },
+  {
+    "name": "Whatfix",
+    "ats": "smartrecruiters",
+    "slug": "whatfix"
+  },
+  {
+    "name": "Mindtickle",
+    "ats": "lever",
+    "slug": "mindtickle"
+  },
+  {
+    "name": "Unacademy",
+    "ats": "smartrecruiters",
+    "slug": "unacademy"
+  },
+  {
+    "name": "LeadSquared",
+    "ats": "lever",
+    "slug": "leadsquared"
+  },
+  {
+    "name": "Meesho",
+    "ats": "lever",
+    "slug": "meesho"
+  },
+  {
+    "name": "Upgrad",
+    "ats": "lever",
+    "slug": "upgrad"
+  },
+  {
+    "name": "Games24x7",
+    "ats": "lever",
+    "slug": "games24x7"
+  },
+  {
+    "name": "Gameskraft",
+    "ats": "lever",
+    "slug": "gameskraft"
+  },
+  {
+    "name": "Spinny",
+    "ats": "lever",
+    "slug": "spinny"
+  },
+  {
+    "name": "Cars24",
+    "ats": "smartrecruiters",
+    "slug": "cars24"
+  },
+  {
+    "name": "Jar",
+    "ats": "lever",
+    "slug": "jar"
+  },
+  {
+    "name": "Pine Labs",
+    "ats": "greenhouse",
+    "slug": "pinelabs"
+  },
+  {
+    "name": "Healthians",
+    "ats": "lever",
+    "slug": "healthians"
+  },
+  {
+    "name": "HealthKart",
+    "ats": "lever",
+    "slug": "healthkart"
+  },
+  {
+    "name": "Celebal Technologies",
+    "ats": "workable",
+    "slug": "celebal-technologies"
+  },
+  {
+    "name": "Infoedge",
+    "ats": "smartrecruiters",
+    "slug": "InfoEdge"
+  },
+  {
+    "name": "Nagarro",
+    "ats": "smartrecruiters",
+    "slug": "Nagarro"
+  },
+  {
+    "name": "Sarvam AI",
+    "ats": "ashby",
+    "slug": "sarvam"
+  },
+  {
+    "name": "Swiggy",
+    "ats": "smartrecruiters",
+    "slug": "swiggy"
+  },
+  {
+    "name": "Hevo Data",
+    "ats": "lever",
+    "slug": "hevodata"
+  },
+  {
+    "name": "Cred",
+    "ats": "lever",
+    "slug": "cred"
+  },
+  {
+    "name": "Groww",
+    "ats": "greenhouse",
+    "slug": "groww"
+  },
+  {
+    "name": "Slice",
+    "ats": "greenhouse",
+    "slug": "slice"
+  },
+  {
+    "name": "Navi",
+    "ats": "ashby",
+    "slug": "navi"
+  },
+  {
+    "name": "Atlan",
+    "ats": "ashby",
+    "slug": "atlan"
+  },
+  {
+    "name": "Observe.AI",
+    "ats": "greenhouse",
+    "slug": "observeai"
+  },
+  {
+    "name": "Ixigo",
+    "ats": "smartrecruiters",
+    "slug": "ixigo"
+  }
 ]
