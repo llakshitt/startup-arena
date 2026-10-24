@@ -1,8 +1,16 @@
 {
-  "generatedAt": "2026-10-24T07:57:14.210Z",
-  "boardsTried": 41,
-  "boardsOk": 23,
+  "generatedAt": "2026-10-24T09:33:05.425Z",
+  "boardsTried": 47,
+  "boardsOk": 29,
   "report": [
+    {
+      "company": "Adobe",
+      "ats": "workday",
+      "slug": "adobe",
+      "status": "ok",
+      "totalOpenRoles": 25,
+      "matched": 25
+    },
     {
       "company": "Atlan",
       "ats": "ashby",
@@ -13,10 +21,11 @@
     },
     {
       "company": "BrowserStack",
-      "ats": "greenhouse",
+      "ats": "workday",
       "slug": "browserstack",
-      "status": "notfound",
-      "error": null
+      "status": "ok",
+      "totalOpenRoles": 0,
+      "matched": 0
     },
     {
       "company": "Cars24",
@@ -64,6 +73,21 @@
       "error": null
     },
     {
+      "company": "Eightfold",
+      "ats": "eightfold",
+      "slug": "eightfold",
+      "status": "error",
+      "error": "eightfold: error HTTP 403"
+    },
+    {
+      "company": "Fractal",
+      "ats": "workday",
+      "slug": "fractal",
+      "status": "ok",
+      "totalOpenRoles": 22,
+      "matched": 17
+    },
+    {
       "company": "Freshworks",
       "ats": "smartrecruiters",
       "slug": "freshworks",
@@ -99,6 +123,13 @@
       "slug": "gupshup",
       "status": "notfound",
       "error": null
+    },
+    {
+      "company": "HCLTech",
+      "ats": "successfactors",
+      "slug": "hcltech",
+      "status": "error",
+      "error": "successfactors: page layout not recognised"
     },
     {
       "company": "Healthians",
@@ -237,6 +268,14 @@
       "matched": 0
     },
     {
+      "company": "Samsung R&D",
+      "ats": "workday",
+      "slug": "samsung",
+      "status": "ok",
+      "totalOpenRoles": 0,
+      "matched": 0
+    },
+    {
       "company": "Sarvam AI",
       "ats": "ashby",
       "slug": "sarvam",
@@ -261,10 +300,11 @@
     },
     {
       "company": "Sprinklr",
-      "ats": "greenhouse",
+      "ats": "workday",
       "slug": "sprinklr",
-      "status": "notfound",
-      "error": null
+      "status": "ok",
+      "totalOpenRoles": 0,
+      "matched": 0
     },
     {
       "company": "Swiggy",
@@ -295,6 +335,14 @@
       "slug": "whatfix",
       "status": "ok",
       "totalOpenRoles": 1,
+      "matched": 0
+    },
+    {
+      "company": "WoodenStreet",
+      "ats": "zoho",
+      "slug": "woodenstreet",
+      "status": "ok",
+      "totalOpenRoles": 3,
       "matched": 0
     },
     {
