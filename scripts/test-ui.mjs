@@ -1,13 +1,13 @@
 // Run: node scripts/test-ui.mjs — tests the pages' pure logic (no browser needed).
 import assert from 'node:assert/strict';
 import {
-  filterPins, sortPins, areasFor, deptsFor, postedLabel, ageInDays, parseHash, buildHash, activeFilterCount,
+  filterPins, sortPins, mergePins, areasFor, deptsFor, postedLabel, ageInDays, parseHash, buildHash, activeFilterCount,
   cityStats, topHiring, savedToCsv,
 } from '../filter.js';
 
 const now = new Date('2026-10-24T00:00:00Z').getTime();
 const day = (n) => new Date(now - n * 864e5).toISOString();
-const pins = [
+const raw = [
   { company: 'Alpha', city: 'jaipur', area: 'Malviya Nagar', lat: 1, lng: 1, jobs: [
     { id: '1', title: 'React Developer', department: 'Eng', postedAt: day(3), fresher: false },
     { id: '2', title: 'Sales Intern', department: 'Sales', postedAt: day(200), fresher: true },
@@ -19,15 +19,30 @@ const pins = [
   ] },
   { company: 'Gamma', city: 'noida', area: null, lat: 1, lng: 1, jobs: [{ id: '6', title: 'Designer', department: 'Design', postedAt: day(40), fresher: false }] },
 ];
+// A second Alpha pin in another area, as the data file can contain (one pin per company and area).
+raw.push({ company: 'Alpha', city: 'jaipur', area: 'Jagatpura', lat: 2, lng: 2, approx: true, jobs: [{ id: '7', title: 'QA Engineer', department: 'Eng', postedAt: day(2), fresher: false }] });
+const pins = mergePins(raw);
 let n = 0;
 const t = (name, fn) => { fn(); console.log(`ok  ${++n}. ${name}`); };
 
+t('merge: one pin per company and city, roles keep their own area', () => {
+  assert.equal(pins.filter((p) => p.company === 'Alpha').length, 1);
+  const alpha = pins.find((p) => p.company === 'Alpha');
+  assert.equal(alpha.jobs.length, 4);
+  assert.equal(alpha.area, 'Malviya Nagar'); // pin sits with the area that has the most roles
+  assert.equal(alpha.jobs.find((j) => j.id === '7').area, 'Jagatpura');
+  assert.equal(alpha.jobs[0].id, '7'); // newest first
+});
+t('area filter works per role', () => {
+  const r = filterPins(pins, { city: 'jaipur', area: 'Jagatpura', maxAge: 0 }, now);
+  assert.deepEqual(r[0].jobs.map((j) => j.id), ['7']);
+});
 t('city filter', () => assert.equal(filterPins(pins, { city: 'noida' }, now).length, 2));
 t('90-day window drops the 200-day-old role but keeps undated ones', () => {
   const titles = filterPins(pins, { city: 'jaipur', maxAge: 90 }, now)[0].jobs.map((j) => j.title);
-  assert.deepEqual(titles, ['React Developer', 'Support Associate']);
+  assert.deepEqual(titles.sort(), ['QA Engineer', 'React Developer', 'Support Associate']);
 });
-t('any time keeps old roles', () => assert.equal(filterPins(pins, { city: 'jaipur', maxAge: 0 }, now)[0].jobs.length, 3));
+t('any time keeps old roles', () => assert.equal(filterPins(pins, { city: 'jaipur', maxAge: 0 }, now)[0].jobs.length, 4));
 t('freshers only', () => {
   const r = filterPins(pins, { city: 'jaipur', maxAge: 0, freshers: true }, now);
   assert.deepEqual(r[0].jobs.map((j) => j.title), ['Sales Intern']);
@@ -39,12 +54,12 @@ t('team filter', () => {
 t('search by title, team and company name', () => {
   assert.equal(filterPins(pins, { city: 'jaipur', q: 'react' }, now)[0].jobs.length, 1);
   assert.equal(filterPins(pins, { city: 'jaipur', q: 'sales', maxAge: 0 }, now)[0].jobs.length, 1);
-  assert.equal(filterPins(pins, { city: 'jaipur', q: 'alpha', maxAge: 0 }, now)[0].jobs.length, 3);
+  assert.equal(filterPins(pins, { city: 'jaipur', q: 'alpha', maxAge: 0 }, now)[0].jobs.length, 4);
 });
 t('no matches drops the pin', () => assert.equal(filterPins(pins, { city: 'jaipur', q: 'zzz' }, now).length, 0));
 t('area filter, area and team lists', () => {
   assert.equal(filterPins(pins, { city: 'jaipur', area: 'Mansarovar' }, now).length, 0);
-  assert.deepEqual(areasFor(pins, [{ city: 'jaipur', area: 'Jagatpura' }], 'jaipur'), ['Jagatpura', 'Malviya Nagar']);
+  assert.deepEqual(areasFor(pins, [{ city: 'jaipur', area: 'Sitapura' }], 'jaipur'), ['Jagatpura', 'Malviya Nagar', 'Sitapura']);
   assert.deepEqual(deptsFor(pins, 'noida'), ['Data', 'Design']);
 });
 t('sorting', () => {
@@ -78,7 +93,7 @@ t('active filter count', () => {
 });
 t('landing numbers', () => {
   assert.deepEqual(cityStats(pins, 'noida'), { roles: 3, companies: 2, freshers: 1 });
-  assert.deepEqual(topHiring(pins, 2).map((x) => `${x.company}:${x.roles}`), ['Alpha:3', 'Beta:2']);
+  assert.deepEqual(topHiring(pins, 2).map((x) => `${x.company}:${x.roles}`), ['Alpha:4', 'Beta:2']);
 });
 t('csv export escapes quotes and blocks spreadsheet formulas', () => {
   const csv = savedToCsv({

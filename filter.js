@@ -20,9 +20,9 @@ export function filterPins(pins, { city, q = '', area = '', dept = '', maxAge = 
   const out = [];
   for (const p of pins) {
     if (p.city !== city) continue;
-    if (area && p.area !== area) continue;
     const companyHit = needle && p.company.toLowerCase().includes(needle);
     const jobs = p.jobs.filter((j) => {
+      if (area && j.area !== area) return false;
       if (freshers && !j.fresher) return false;
       if (dept && j.department !== dept) return false;
       if (maxAge) {
@@ -46,9 +46,34 @@ export function sortPins(pins, sort = 'roles') {
   return copy;
 }
 
+/**
+ * One pin per company per city. The data file may hold several pins for one company
+ * (one per area); this merges them, tags every role with its own area, and keeps the
+ * pin at the location of the area with the most roles.
+ */
+export function mergePins(pins) {
+  const by = new Map();
+  for (const p of pins) {
+    const k = `${p.company}|${p.city}`;
+    const jobs = p.jobs.map((j) => ({ ...j, area: j.area ?? p.area ?? null }));
+    const g = by.get(k);
+    if (!g) {
+      by.set(k, { ...p, jobs, best: p.jobs.length });
+    } else {
+      g.jobs.push(...jobs);
+      if (p.jobs.length > g.best) Object.assign(g, { lat: p.lat, lng: p.lng, area: p.area, approx: p.approx, best: p.jobs.length });
+    }
+  }
+  return [...by.values()].map(({ best, ...p }) => {
+    p.jobs.sort((a, b) => (b.postedAt || '').localeCompare(a.postedAt || ''));
+    return p;
+  });
+}
+
 export function areasFor(pins, watch, city) {
   const set = new Set();
-  for (const p of [...pins, ...watch]) if (p.city === city && p.area) set.add(p.area);
+  for (const p of pins) if (p.city === city) for (const j of p.jobs) if (j.area) set.add(j.area);
+  for (const w of watch) if (w.city === city && w.area) set.add(w.area);
   return [...set].sort((a, b) => a.localeCompare(b, 'en', { numeric: true }));
 }
 

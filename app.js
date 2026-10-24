@@ -1,5 +1,5 @@
 import {
-  filterPins, sortPins, areasFor, deptsFor, postedLabel, parseHash, buildHash, activeFilterCount, savedToCsv, STATUSES, DEFAULT_AGE,
+  filterPins, sortPins, mergePins, areasFor, deptsFor, postedLabel, parseHash, buildHash, activeFilterCount, savedToCsv, STATUSES, DEFAULT_AGE,
 } from './filter.js';
 import { loadSaved, persistSaved } from './store.js';
 
@@ -29,6 +29,7 @@ async function boot() {
     const res = await fetch('data/jobs.json', { cache: 'no-cache' });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     state.data = await res.json();
+    state.data.pins = mergePins(state.data.pins);
   } catch (e) {
     $('panel').replaceChildren(
       el('div', { class: 'empty' },
@@ -61,9 +62,9 @@ function setupMap() {
     return;
   }
   state.map = L.map('map', { zoomControl: true });
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   }).addTo(state.map);
   state.layer = L.layerGroup().addTo(state.map);
   state.map.on('click', () => { if (state.selected) { state.selected = null; render(); } });
@@ -249,7 +250,7 @@ function roleRow(p, j) {
     el('div', { class: 'meta' },
       j.isNew ? el('span', { class: 'tag new', text: 'New' }) : null,
       j.fresher ? el('span', { class: 'tag fresh', text: 'Freshers' }) : null,
-      [j.department, j.type, j.workplace].filter(Boolean).map((t) => el('span', { text: t })),
+      [j.area, j.department, j.type, j.workplace].filter(Boolean).map((t) => el('span', { text: t })),
       el('span', { text: postedLabel(j.postedAt) })));
 }
 
