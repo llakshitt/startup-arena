@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
-import { SCRAPERS, workdayPostedOn, parseWorkdayList, parseSuccessFactorsRows, parseZohoJobs, parseEightfold } from './scrapers.mjs';
+import { SCRAPERS, workdayPostedOn, parseWorkdayList, parseSuccessFactorsRows, parseZohoJobs, parseEightfold, parseSfApi } from './scrapers.mjs';
 import { ADAPTERS, buildDataset, detectCities, detectArea, isFresherRole, toCityJobs } from './lib.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -150,6 +150,12 @@ await t('scrapers read Workday, SuccessFactors, Zoho and Eightfold payloads', ()
   assert.equal(zoho[0].url, 'https://w.zohorecruit.in/jobs/Careers/4001/graphic-designer?source=CareerSite');
   assert.deepEqual(detectCities(zoho[0].locations), ['jaipur']);
   assert.throws(() => parseZohoJobs('<html></html>', 'https://w.zohorecruit.in'), /not found/);
+
+  const hcl = parseSfApi({ jobSearchResult: [{ response: { id: '178584', unifiedStandardTitle: 'Technical Specialist', unifiedUrlTitle: 'Technical-Specialist', unifiedStandardStart: '10/19/26', custprimecity: 'Noida', custCountryRegion: ['India'], supportedLocales: ['en_US'] } }] }, 'https://careers.hcltech.com');
+  assert.equal(hcl[0].title, 'Technical Specialist');
+  assert.equal(hcl[0].url, 'https://careers.hcltech.com/job/Technical-Specialist/178584-en_US');
+  assert.ok(hcl[0].postedAt.startsWith('2026-10-19'));
+  assert.deepEqual(detectCities(hcl[0].locations), ['noida']);
 
   const ef = parseEightfold({ positions: [{ id: 5, name: 'ML Engineer', location: 'Noida, India', t_create: 1792800000, canonicalPositionUrl: 'https://app.eightfold.ai/careers/job/5' }] }, 'app.eightfold.ai');
   assert.equal(ef[0].title, 'ML Engineer');

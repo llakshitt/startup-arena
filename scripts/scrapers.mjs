@@ -121,6 +121,54 @@ const successfactors = {
   },
 };
 
+/* ---------------- SuccessFactors career sites with the recruiting JSON API (HCLTech) ---------------- */
+// "10/19/26" (US month/day/year) to an ISO date
+const usDate = (t) => {
+  const m = /^(\d{1,2})\/(\d{1,2})\/(\d{2,4})$/.exec(String(t || '').trim());
+  if (!m) return null;
+  const y = m[3].length === 2 ? 2000 + Number(m[3]) : Number(m[3]);
+  const d = new Date(Date.UTC(y, Number(m[1]) - 1, Number(m[2])));
+  return Number.isNaN(d.getTime()) ? null : d.toISOString();
+};
+
+export function parseSfApi(data, base) {
+  return (data?.jobSearchResult || []).map((x) => x.response || {}).filter((r) => r.id && r.unifiedStandardTitle).map((r) => {
+    const city = r.custprimecity && r.custprimecity !== 'Others' ? r.custprimecity : null;
+    return {
+      rawId: String(r.id),
+      title: r.unifiedStandardTitle,
+      url: `${base}/job/${r.unifiedUrlTitle || r.urlTitle}/${r.id}-${(r.supportedLocales || ['en_US'])[0]}`,
+      postedAt: usDate(r.unifiedStandardStart),
+      department: null,
+      type: null,
+      workplace: null,
+      locations: [[city, ...(r.custCountryRegion || [])].filter(Boolean).join(', ')],
+    };
+  });
+}
+
+const sfapi = {
+  async fetch(board, http) {
+    const base = board.base.replace(/\/$/, '');
+    const out = new Map();
+    for (const term of CITY_TERMS) {
+      for (let page = 0; page < 30; page++) {
+        const body = { locale: 'en_US', pageNumber: page, sortBy: 'recent', keywords: term, location: '', facetFilters: {}, brand: '', skills: [], categoryId: 0, alertId: '', rcmCandidateId: '' };
+        const r = await http.json(`${base}/services/recruiting/v1/jobs`, { method: 'POST', body });
+        if (r.status !== 'ok' && page > 0) break; // ran past the last page
+        if (r.status !== 'ok') throw new Error(`sfapi ${term}: ${r.status} ${r.error || ''}`);
+        if (page === 0 && !Array.isArray(r.data?.jobSearchResult) && r.data?.totalJobs !== 0) throw new Error('sfapi: response not recognised');
+        const rows = parseSfApi(r.data, base);
+        if (!rows.length) break;
+        let fresh = 0;
+        for (const row of rows) if (!out.has(row.rawId)) { out.set(row.rawId, row); fresh++; }
+        if (!fresh) break;
+      }
+    }
+    return [...out.values()];
+  },
+};
+
 /* ---------------- Zoho Recruit career sites ---------------- */
 export function parseZohoJobs(html, origin) {
   const m = /<input[^>]*\bid="jobs"[^>]*\bvalue=(?:"([^"]*)"|'([^']*)')/i.exec(html) || /<input[^>]*\bvalue=(?:"([^"]*)"|'([^']*)')[^>]*\bid="jobs"/i.exec(html);
@@ -180,4 +228,4 @@ const eightfold = {
   },
 };
 
-export const SCRAPERS = { workday, successfactors, zoho, eightfold };
+export const SCRAPERS = { workday, successfactors, sfapi, zoho, eightfold };

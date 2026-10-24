@@ -8,7 +8,7 @@ No dependencies and no build step. The site is plain HTML, CSS and JavaScript. T
 
 ## How the roles stay live
 
-`scripts/fetch-jobs.mjs` calls the public job-board API of each company in `data/boards.json` (Lever, Greenhouse, Ashby, Workable, SmartRecruiters). It keeps only roles whose location mentions Jaipur or Noida and writes `data/jobs.json`. A role that a company closes disappears from its API, so it disappears from the map the next day. Nothing is typed in by hand.
+`scripts/fetch-jobs.mjs` calls the public job-board API of each company in `data/boards.json` (Lever, Greenhouse, Ashby, Workable, SmartRecruiters). Companies without such a feed are read by the careers-page readers in `scripts/scrapers.mjs`: Workday (Sprinklr, Adobe, BrowserStack, Fractal, Samsung R&D), SuccessFactors (HCLTech) and Zoho Recruit (WoodenStreet). A reader stops with an error when a page no longer looks as expected, and the refresh then keeps that company's last good roles. It keeps only roles whose location mentions Jaipur or Noida and writes `data/jobs.json`. A role that a company closes disappears from its API, so it disappears from the map the next day. Nothing is typed in by hand.
 
 The GitHub Action in `.github/workflows/refresh.yml` runs this every 5 hours (00:00, 05:00, 10:00, 15:00 and 20:00 UTC), commits the new data, and GitHub Pages republishes the site.
 
@@ -41,7 +41,7 @@ Without that, the pin is placed in the area named in the job location, or near t
 ## Known limits
 
 - The slugs in `data/boards.json` are a starting list and have not been checked against live APIs. Use `data/report.json` after the first run.
-- Many Jaipur companies hire only through LinkedIn, Naukri or their own careers page. These have no public job-board API, so they appear as hollow "no live job feed" pins. To cover them you would need another source, such as a company-specific scraper.
+- Many Jaipur companies hire only through LinkedIn, Naukri or their own careers page. These have no public job-board API, so they appear as hollow "no live job feed" pins. To cover one, add a reader to `scripts/scrapers.mjs` (see the existing ones) and a board entry in `data/boards.json`. Pages that are drawn entirely by JavaScript with no JSON behind them cannot be read this way.
 - Roles that do not state a city (for example "Remote, India") are not shown.
 
 ## Tests

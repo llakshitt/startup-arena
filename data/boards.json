@@ -231,7 +231,7 @@
   },
   {
     "name": "HCLTech",
-    "ats": "successfactors",
+    "ats": "sfapi",
     "slug": "hcltech",
     "base": "https://careers.hcltech.com"
   },
