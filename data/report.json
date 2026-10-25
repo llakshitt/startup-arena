@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-24T22:04:15.871Z",
+  "generatedAt": "2026-10-25T02:03:48.045Z",
   "boardsTried": 46,
   "boardsOk": 31,
   "report": [
@@ -122,8 +122,8 @@
       "ats": "sfapi",
       "slug": "hcltech",
       "status": "ok",
-      "totalOpenRoles": 281,
-      "matched": 102
+      "totalOpenRoles": 290,
+      "matched": 98
     },
     {
       "company": "Healthians",
