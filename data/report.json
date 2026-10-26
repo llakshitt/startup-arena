@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-26T02:04:51.561Z",
+  "generatedAt": "2026-10-26T10:37:18.239Z",
   "boardsTried": 46,
   "boardsOk": 31,
   "report": [
@@ -8,15 +8,15 @@
       "ats": "workday",
       "slug": "adobe",
       "status": "ok",
-      "totalOpenRoles": 25,
-      "matched": 25
+      "totalOpenRoles": 23,
+      "matched": 23
     },
     {
       "company": "Atlan",
       "ats": "ashby",
       "slug": "atlan",
       "status": "ok",
-      "totalOpenRoles": 6,
+      "totalOpenRoles": 7,
       "matched": 0
     },
     {
@@ -77,8 +77,8 @@
       "ats": "workday",
       "slug": "fractal",
       "status": "ok",
-      "totalOpenRoles": 22,
-      "matched": 17
+      "totalOpenRoles": 23,
+      "matched": 18
     },
     {
       "company": "Freshworks",
@@ -123,7 +123,7 @@
       "slug": "hcltech",
       "status": "ok",
       "totalOpenRoles": 289,
-      "matched": 104
+      "matched": 100
     },
     {
       "company": "Healthians",
@@ -160,7 +160,7 @@
       "ats": "workable",
       "slug": "innovaccer-analytics",
       "status": "ok",
-      "totalOpenRoles": 91,
+      "totalOpenRoles": 90,
       "matched": 51
     },
     {
@@ -190,7 +190,7 @@
       "ats": "lever",
       "slug": "meesho",
       "status": "ok",
-      "totalOpenRoles": 58,
+      "totalOpenRoles": 57,
       "matched": 2
     },
     {
@@ -221,7 +221,7 @@
       "ats": "ashby",
       "slug": "navi",
       "status": "ok",
-      "totalOpenRoles": 4,
+      "totalOpenRoles": 2,
       "matched": 0
     },
     {
@@ -237,7 +237,7 @@
       "ats": "lever",
       "slug": "paytm",
       "status": "ok",
-      "totalOpenRoles": 196,
+      "totalOpenRoles": 197,
       "matched": 109
     },
     {
@@ -259,7 +259,7 @@
       "ats": "greenhouse",
       "slug": "razorpaysoftwareprivatelimited",
       "status": "ok",
-      "totalOpenRoles": 25,
+      "totalOpenRoles": 26,
       "matched": 0
     },
     {
@@ -306,7 +306,7 @@
       "ats": "smartrecruiters",
       "slug": "swiggy",
       "status": "ok",
-      "totalOpenRoles": 202,
+      "totalOpenRoles": 201,
       "matched": 6
     },
     {
