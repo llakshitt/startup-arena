@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-27T02:42:07.316Z",
+  "generatedAt": "2026-10-27T10:06:36.881Z",
   "boardsTried": 46,
   "boardsOk": 31,
   "report": [
@@ -77,8 +77,8 @@
       "ats": "workday",
       "slug": "fractal",
       "status": "ok",
-      "totalOpenRoles": 23,
-      "matched": 18
+      "totalOpenRoles": 24,
+      "matched": 19
     },
     {
       "company": "Freshworks",
@@ -122,8 +122,8 @@
       "ats": "sfapi",
       "slug": "hcltech",
       "status": "ok",
-      "totalOpenRoles": 280,
-      "matched": 101
+      "totalOpenRoles": 276,
+      "matched": 103
     },
     {
       "company": "Healthians",
@@ -259,7 +259,7 @@
       "ats": "greenhouse",
       "slug": "razorpaysoftwareprivatelimited",
       "status": "ok",
-      "totalOpenRoles": 26,
+      "totalOpenRoles": 27,
       "matched": 0
     },
     {
@@ -306,7 +306,7 @@
       "ats": "smartrecruiters",
       "slug": "swiggy",
       "status": "ok",
-      "totalOpenRoles": 201,
+      "totalOpenRoles": 199,
       "matched": 6
     },
     {
