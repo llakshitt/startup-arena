@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-28T23:47:56.006Z",
+  "generatedAt": "2026-10-29T03:14:08.892Z",
   "boardsTried": 46,
   "boardsOk": 31,
   "report": [
@@ -122,7 +122,7 @@
       "ats": "sfapi",
       "slug": "hcltech",
       "status": "ok",
-      "totalOpenRoles": 279,
+      "totalOpenRoles": 287,
       "matched": 105
     },
     {
@@ -353,7 +353,7 @@
       "ats": "greenhouse",
       "slug": "zscaler",
       "status": "ok",
-      "totalOpenRoles": 351,
+      "totalOpenRoles": 352,
       "matched": 0
     }
   ]
