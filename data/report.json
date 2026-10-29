@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-29T03:14:08.892Z",
+  "generatedAt": "2026-10-29T11:10:19.979Z",
   "boardsTried": 46,
   "boardsOk": 31,
   "report": [
@@ -62,7 +62,7 @@
       "ats": "lever",
       "slug": "cred",
       "status": "ok",
-      "totalOpenRoles": 10,
+      "totalOpenRoles": 13,
       "matched": 0
     },
     {
@@ -85,7 +85,7 @@
       "ats": "smartrecruiters",
       "slug": "freshworks",
       "status": "ok",
-      "totalOpenRoles": 122,
+      "totalOpenRoles": 124,
       "matched": 0
     },
     {
@@ -122,8 +122,8 @@
       "ats": "sfapi",
       "slug": "hcltech",
       "status": "ok",
-      "totalOpenRoles": 287,
-      "matched": 105
+      "totalOpenRoles": 277,
+      "matched": 106
     },
     {
       "company": "Healthians",
@@ -160,15 +160,15 @@
       "ats": "workable",
       "slug": "innovaccer-analytics",
       "status": "ok",
-      "totalOpenRoles": 92,
-      "matched": 52
+      "totalOpenRoles": 91,
+      "matched": 51
     },
     {
       "company": "Ixigo",
       "ats": "smartrecruiters",
       "slug": "ixigo",
       "status": "ok",
-      "totalOpenRoles": 8,
+      "totalOpenRoles": 7,
       "matched": 0
     },
     {
@@ -190,7 +190,7 @@
       "ats": "lever",
       "slug": "meesho",
       "status": "ok",
-      "totalOpenRoles": 52,
+      "totalOpenRoles": 49,
       "matched": 2
     },
     {
@@ -237,8 +237,8 @@
       "ats": "lever",
       "slug": "paytm",
       "status": "ok",
-      "totalOpenRoles": 198,
-      "matched": 110
+      "totalOpenRoles": 200,
+      "matched": 111
     },
     {
       "company": "Pine Labs",
@@ -259,7 +259,7 @@
       "ats": "greenhouse",
       "slug": "razorpaysoftwareprivatelimited",
       "status": "ok",
-      "totalOpenRoles": 24,
+      "totalOpenRoles": 25,
       "matched": 0
     },
     {
@@ -275,7 +275,7 @@
       "ats": "ashby",
       "slug": "sarvam",
       "status": "ok",
-      "totalOpenRoles": 45,
+      "totalOpenRoles": 46,
       "matched": 0
     },
     {
@@ -306,7 +306,7 @@
       "ats": "smartrecruiters",
       "slug": "swiggy",
       "status": "ok",
-      "totalOpenRoles": 179,
+      "totalOpenRoles": 173,
       "matched": 4
     },
     {
@@ -353,7 +353,7 @@
       "ats": "greenhouse",
       "slug": "zscaler",
       "status": "ok",
-      "totalOpenRoles": 352,
+      "totalOpenRoles": 355,
       "matched": 0
     }
   ]
