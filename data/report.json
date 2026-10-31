@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-31T03:00:02.701Z",
+  "generatedAt": "2026-10-31T10:38:59.191Z",
   "boardsTried": 46,
   "boardsOk": 31,
   "report": [
@@ -122,8 +122,8 @@
       "ats": "sfapi",
       "slug": "hcltech",
       "status": "ok",
-      "totalOpenRoles": 273,
-      "matched": 104
+      "totalOpenRoles": 277,
+      "matched": 108
     },
     {
       "company": "Healthians",
@@ -160,8 +160,8 @@
       "ats": "workable",
       "slug": "innovaccer-analytics",
       "status": "ok",
-      "totalOpenRoles": 91,
-      "matched": 52
+      "totalOpenRoles": 90,
+      "matched": 51
     },
     {
       "company": "Ixigo",
@@ -237,7 +237,7 @@
       "ats": "lever",
       "slug": "paytm",
       "status": "ok",
-      "totalOpenRoles": 199,
+      "totalOpenRoles": 201,
       "matched": 111
     },
     {
